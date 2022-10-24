@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
-export default function Header() {
+function Header() {
   return (
     <>
       <h3 data-testid="page-title">Titulo da pagina</h3>
@@ -27,3 +28,11 @@ export default function Header() {
     </>
   );
 }
+const mapStateToProps = () => {
+
+};
+
+const mapDispatchToProps = () => {
+
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
