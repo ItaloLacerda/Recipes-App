@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Profile from './components/Profile';
 
 import Profile from './components/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
@@ -24,7 +25,7 @@ function App() {
       <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-    </BrowserRouter>
+    <BrowserRouter/>
   );
 }
 
