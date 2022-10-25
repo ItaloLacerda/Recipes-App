@@ -1,10 +1,26 @@
-import React from 'react';
-import Header from '../components/Header';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function DoneRecipes() {
+import Header from '../components/Header';
+import { renderHeader } from '../redux/actions';
+
+function DoneRecipes({ updateHeader }) {
+  useEffect(() => {
+    updateHeader('Done Recipes', true, false);
+  }, []);
   return (
     <Header />
   );
 }
 
-export default DoneRecipes;
+const mapDispatchToProps = (dispatch) => ({
+  updateHeader: (pageTitle, profileIcon, searchIcon) => (
+    dispatch(renderHeader(pageTitle, profileIcon, searchIcon))),
+});
+
+DoneRecipes.propTypes = {
+  updateHeader: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(DoneRecipes);
