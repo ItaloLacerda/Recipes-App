@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { renderHeader } from '../redux/actions';
 
-function FavoriteRecipes({ updateHeader }) {
+function FavoriteRecipes({ updateHeader, history }) {
   useEffect(() => {
     updateHeader('Favorite Recipes', true, false);
   }, []);
   return (
-    <Header />
+    <Header history={ history } />
   );
 }
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 FavoriteRecipes.propTypes = {
   updateHeader: PropTypes.func.isRequired,
+  history: PropTypes.shape.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(FavoriteRecipes);

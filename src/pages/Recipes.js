@@ -17,7 +17,7 @@ function Recipes({ updateHeader, history }) {
     updateHeader(pageTitle, true, true);
   }, []);
   return (
-    <Header />
+    <Header history={ history } />
   );
 }
 

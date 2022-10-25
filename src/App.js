@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Profile from './components/Profile';
+import { Route, Switch } from 'react-router-dom';
 
-import Profile from './components/Profile';
+import Profile from './pages/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import DoneRecipes from './pages/DoneRecipes';
 import RecipeInProgress from './pages/RecipeInProgress';
@@ -14,7 +13,7 @@ import Login from './pages/Login';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Switch>
       <Route exact path="/" component={ Login } />
       <Route path="/meals" component={ Recipes } />
       <Route path="/drinks" component={ Recipes } />
@@ -25,7 +24,7 @@ function App() {
       <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-    <BrowserRouter/>
+    </Switch>
   );
 }
 
