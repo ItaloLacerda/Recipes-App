@@ -15,6 +15,7 @@ function SearchBarHeader() {
           busca de ingrediente
           <input
             id="ingredient-search-radio"
+            name="search-radio"
             type="radio"
             data-testid="ingredient-search-radio"
           />
@@ -24,6 +25,7 @@ function SearchBarHeader() {
           <input
             id="name-search-radio"
             type="radio"
+            name="search-radio"
             data-testid="name-search-radio"
           />
         </label>
@@ -32,10 +34,19 @@ function SearchBarHeader() {
           <input
             id="first-letter-search-radio"
             type="radio"
+            name="search-radio"
             data-testid="first-letter-search-radio"
           />
         </label>
       </div>
+      <label htmlFor="exec-search-btn">
+        <input
+          id="exec-search-btn"
+          type="button"
+          data-testid="exec-search-btn"
+          value="Buscar"
+        />
+      </label>
     </form>
   );
 }
