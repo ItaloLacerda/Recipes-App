@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { renderHeader } from '../redux/actions';
 
-function Profile({ updateHeader }) {
+function Profile({ updateHeader, history }) {
   useEffect(() => {
     updateHeader('Profile', true, false);
   }, []);
   return (
-    <Header />
+    <Header history={ history } />
   );
 }
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Profile.propTypes = {
   updateHeader: PropTypes.func.isRequired,
+  history: PropTypes.shape.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Profile);
