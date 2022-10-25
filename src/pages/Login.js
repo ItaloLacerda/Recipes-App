@@ -23,6 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password } = this.state;
+
     return (
       <form
         onSubmit={ this.handleSubmit }
@@ -47,6 +48,7 @@ class Login extends React.Component {
           className="BTN_login"
           type="submit"
           disabled={ password.length <= num || !validateEmail(email) }
+          onClick={ this.handleSubmit }
         >
           Entrar
         </button>
