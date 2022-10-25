@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
@@ -11,21 +12,24 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon }) {
       <h3 data-testid="page-title">{pageTitle}</h3>
       {
         renderProfileIcon && (
-          <div>
-            <img
-              data-testid="profile-top-btn"
-              type="image/svg+xml"
-              alt="test"
-              src={ profileIcon }
-            />
-          </div>)
+          <Link to="/profile">
+            <div>
+              <img
+                data-testid="profile-top-btn"
+                type="image/svg+xml"
+                alt="Profile Icon"
+                src={ profileIcon }
+              />
+            </div>
+          </Link>
+        )
       }
       { renderSearchIcon && (
         <div>
           <img
             data-testid="search-top-btn"
             type="image/svg+xml"
-            alt="test"
+            alt="Search Icon"
             src={ searchIcon }
           />
         </div>)}
