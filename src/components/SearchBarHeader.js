@@ -27,12 +27,12 @@ function SearchBarHeader() {
             data-testid="name-search-radio"
           />
         </label>
-        <label htmlFor="search-input">
+        <label htmlFor="first-letter-search-radio">
           busca da primeira letra
           <input
-            id="search-input"
+            id="first-letter-search-radio"
             type="radio"
-            data-testid="search-input"
+            data-testid="first-letter-search-radio"
           />
         </label>
       </div>
