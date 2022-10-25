@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       {/* <Route exact path="/meals/:id-da-receita" component={ } /> */}
       {/* <Route exact path="/drinks/:id-da-receita" component={ } /> */}
       {/* <Route exact path="/meals/:id-da-receita/in-progress" component={ } /> */}
-      {/* <Route exact path="/profile" component={ } /> */}
+      <Route exact path="/profile" component={ Profile } />
       {/* <Route exact path="/done-recipes" component={ } /> */}
       {/* <Route exact path="/favorite-recipes" component={ } /> */}
     </BrowserRouter>
