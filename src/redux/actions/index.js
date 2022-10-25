@@ -1,4 +1,5 @@
 export const RENDER_HEADER = 'RENDER_HEADER';
+export const SELECTED_RADIO = 'SELECTED_RADIO';
 
 export const renderHeader = (pageTitle, profileIcon, searchIcon) => ({
   type: RENDER_HEADER,
@@ -7,4 +8,8 @@ export const renderHeader = (pageTitle, profileIcon, searchIcon) => ({
     profileIcon,
     searchIcon,
   },
+});
+export const selectedRadio = (payload) => ({
+  type: SELECTED_RADIO,
+  payload,
 });
