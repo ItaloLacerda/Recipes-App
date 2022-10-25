@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { renderHeader } from '../redux/actions';
 
-function Recipes({ updateHeader }) {
+function Recipes({ updateHeader, history }) {
   useEffect(() => {
-    updateHeader('Done Recipes', true, false);
+    const { location: { pathname } } = history;
+    updateHeader(pathname.substring(1), true, true);
   }, []);
   return (
     <Header />
@@ -21,6 +22,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 Recipes.propTypes = {
   updateHeader: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Recipes);
