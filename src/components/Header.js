@@ -13,10 +13,8 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
     case 'Profile Icon':
       history.push('/profile');
       break;
-    case 'Search Icon':
-      setSearch(!search);
-      break;
     default:
+      setSearch(!search);
       break;
     }
   };
