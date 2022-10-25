@@ -1,10 +1,26 @@
-import React from 'react';
-import Header from '../components/Header';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function FavoriteRecipes() {
+import Header from '../components/Header';
+import { renderHeader } from '../redux/actions';
+
+function FavoriteRecipes({ updateHeader }) {
+  useEffect(() => {
+    updateHeader('Favorite Recipes', true, false);
+  }, []);
   return (
     <Header />
   );
 }
 
-export default FavoriteRecipes;
+const mapDispatchToProps = (dispatch) => ({
+  updateHeader: (pageTitle, profileIcon, searchIcon) => (
+    dispatch(renderHeader(pageTitle, profileIcon, searchIcon))),
+});
+
+FavoriteRecipes.propTypes = {
+  updateHeader: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(FavoriteRecipes);

@@ -8,7 +8,13 @@ import { renderHeader } from '../redux/actions';
 function Recipes({ updateHeader, history }) {
   useEffect(() => {
     const { location: { pathname } } = history;
-    updateHeader(pathname.substring(1), true, true);
+    let pageTitle = '';
+    if (pathname === '/meals') {
+      pageTitle = 'Meals';
+    } else {
+      pageTitle = 'Drinks';
+    }
+    updateHeader(pageTitle, true, true);
   }, []);
   return (
     <Header />

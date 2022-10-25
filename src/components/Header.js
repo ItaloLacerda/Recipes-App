@@ -12,24 +12,22 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon }) {
       {
         renderProfileIcon && (
           <div>
-            <object
+            <img
               data-testid="profile-top-btn"
               type="image/svg+xml"
-              data={ profileIcon }
-            >
-              profileIcon
-            </object>
+              alt="test"
+              src={ profileIcon }
+            />
           </div>)
       }
       { renderSearchIcon && (
         <div>
-          <object
+          <img
             data-testid="search-top-btn"
             type="image/svg+xml"
-            data={ searchIcon }
-          >
-            searchIcon
-          </object>
+            alt="test"
+            src={ searchIcon }
+          />
         </div>)}
     </>
   );
