@@ -5,6 +5,7 @@ import FoodCard from '../components/FoodCard';
 import { mustDisplay, renderHeader, rendersRecipe } from '../redux/actions';
 import Header from '../components/Header';
 import { fetchMealsAndDrinks } from '../API/fetchAPI';
+import Footer from '../components/Footer';
 
 class Recipes extends Component {
   async componentDidMount() {
@@ -52,6 +53,7 @@ class Recipes extends Component {
             />))
           )}
         </div>
+        <Footer />
       </>
     );
   }
