@@ -6,11 +6,12 @@ import App from '../App';
 
 const emailTest = 'teste@gmail.com';
 const passowrdTest = '1234567';
+const emailinput = 'email-input';
 
 describe('Testa o componente <Login.js />', () => {
   it('Teste se na página contém input com data-test: email-input ', () => {
     renderWithRouterAndRedux(<App />);
-    const text = screen.getByTestId('email-input');
+    const text = screen.getByTestId(emailinput);
 
     expect(text).toBeInTheDocument();
   });
@@ -23,7 +24,7 @@ describe('Testa o componente <Login.js />', () => {
 
   it('Teste se é possivel editar o campo email_input', () => {
     renderWithRouterAndRedux(<App />);
-    const email = screen.getByTestId('email-input');
+    const email = screen.getByTestId(emailinput);
     fireEvent.change(email, { target: { value: emailTest } });
 
     expect(email.value).toBe(emailTest);
@@ -32,7 +33,7 @@ describe('Testa o componente <Login.js />', () => {
   it('Verifica se ao clicar em Adicionar despesa, ele direciona para rota /meals', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
 
-    const email = screen.getByTestId('email-input');
+    const email = screen.getByTestId(emailinput);
     const senha = screen.getByTestId('password-input');
 
     fireEvent.change(email, { target: { value: emailTest } });
