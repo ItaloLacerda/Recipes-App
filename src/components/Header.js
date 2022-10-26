@@ -43,7 +43,7 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
           />
         </button>)}
       {search && (
-        <SearchBarHeader />
+        <SearchBarHeader history={ history } />
       )}
     </>
   );

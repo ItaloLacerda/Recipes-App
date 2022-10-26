@@ -14,7 +14,7 @@ export const renderHeader = (pageTitle, profileIcon, searchIcon) => ({
 export const selectedRadio = (payload) => ({
   type: SELECTED_RADIO,
   payload,
-  });
+});
 
 export const login = (userData) => ({
   type: LOGIN,

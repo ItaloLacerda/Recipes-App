@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { fetchTheMealDBFilterIngredient,
-  fetchTheMealDBSearchFirstLetter, fetchTheMealDBSearchName } from '../API/fetchAPI';
+import PropTypes from 'prop-types';
 
-function SearchBarHeader() {
+import { fetchFilterIngredient, fetchSearchFirstLetter,
+  fetchSearchName } from '../API/fetchAPI';
+
+function SearchBarHeader({ history }) {
   const [searchInput, setSearchInput] = useState('');
   const [radio, setRadio] = useState('');
   const handelChange = ({ target }) => {
@@ -25,18 +27,19 @@ function SearchBarHeader() {
   };
 
   const handelClick = (SEARCH_INPUT, RADIO) => {
+    const { pathname } = history.location;
     switch (RADIO) {
     case 'Ingredient':
-      fetchTheMealDBFilterIngredient(SEARCH_INPUT);
+      fetchFilterIngredient(SEARCH_INPUT, pathname);
       break;
     case 'Name':
-      fetchTheMealDBSearchName(SEARCH_INPUT);
+      fetchSearchName(SEARCH_INPUT, pathname);
       break;
     case 'First letter':
       if (SEARCH_INPUT.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       } else {
-        fetchTheMealDBSearchFirstLetter(SEARCH_INPUT);
+        fetchSearchFirstLetter(SEARCH_INPUT, pathname);
       }
       break;
     default:
@@ -98,5 +101,11 @@ function SearchBarHeader() {
     </form>
   );
 }
-
+SearchBarHeader.propTypes = {
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  }).isRequired,
+};
 export default SearchBarHeader;
