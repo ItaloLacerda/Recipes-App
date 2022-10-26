@@ -24,24 +24,37 @@ function SearchBarHeader({ history }) {
     }
   };
 
-  const handelClick = (SEARCH_INPUT, RADIO) => {
+  const handelClick = async (SEARCH_INPUT, RADIO) => {
     const { pathname } = history.location;
+    let resultsFetch = [];
     switch (RADIO) {
     case 'Ingredient':
-      fetchFilterIngredient(SEARCH_INPUT, pathname);
+      resultsFetch = await fetchFilterIngredient(SEARCH_INPUT, pathname);
       break;
     case 'Name':
-      fetchSearchName(SEARCH_INPUT, pathname);
+      resultsFetch = await fetchSearchName(SEARCH_INPUT, pathname);
       break;
     case 'First letter':
       if (SEARCH_INPUT.length > 1) {
         global.alert('Your search must have only 1 (one) character');
+        resultsFetch = { [pathname.substring(1)]: [] };
       } else {
-        fetchSearchFirstLetter(SEARCH_INPUT, pathname);
+        resultsFetch = await fetchSearchFirstLetter(SEARCH_INPUT, pathname);
       }
       break;
     default:
       break;
+    }
+
+    if (resultsFetch[pathname.substring(1)].length === 1) {
+      if (pathname === '/meals') {
+        const productId = resultsFetch[pathname.substring(1)][0].idMeal;
+        history.push(`${pathname}/${productId}`);
+      }
+      if (pathname === '/drinks') {
+        const productId = resultsFetch[pathname.substring(1)][0].idDrink;
+        history.push(`${pathname}/${productId}`);
+      }
     }
   };
 
@@ -105,6 +118,7 @@ SearchBarHeader.propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }),
+    push: PropTypes.func,
   }).isRequired,
 };
 export default SearchBarHeader;

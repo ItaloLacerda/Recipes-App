@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
 import { mustDisplay, renderHeader } from '../redux/actions';
 import Header from '../components/Header';
+import { fetchMealsAndDrinks } from '../API/fetchAPI';
 
 class Recipes extends Component {
   state = {
@@ -11,9 +12,10 @@ class Recipes extends Component {
     drinks: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { setShow, history, updateHeader } = this.props;
     const { location: { pathname } } = history;
+    const LENGTH = 11;
     // console.log(pathname)
     let pageTitle = '';
     if (pathname === '/drinks') {
@@ -24,31 +26,14 @@ class Recipes extends Component {
       setShow(true);
     }
     updateHeader(pageTitle, true, true);
-    this.fetchMeals();
-    this.fetchDrinks();
+    const fetchData = await fetchMealsAndDrinks(pathname);
+
+    const data = fetchData.filter((meal, index) => index <= LENGTH);
+    this.setState({
+      meals: data,
+      drinks: data,
+    });
   }
-
-  fetchMeals = async () => {
-    const endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    const MEALS_LENGTH = 11;
-    const request = await fetch(endpoint);
-    const { meals } = await request.json();
-    const mealsData = meals.filter((meal, index) => index <= MEALS_LENGTH);
-    this.setState({
-      meals: mealsData,
-    });
-  };
-
-  fetchDrinks = async () => {
-    const endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const DRINKS_LENGTH = 11;
-    const request = await fetch(endpoint);
-    const { drinks } = await request.json();
-    const drinksData = drinks.filter((drink, index) => index <= DRINKS_LENGTH);
-    this.setState({
-      drinks: drinksData,
-    });
-  };
 
   render() {
     const { meals, drinks } = this.state;
@@ -93,13 +78,11 @@ const mapStateToProps = ({ iMustDisplay }) => ({
 Recipes.propTypes = {
   show: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
-  history: PropTypes.shape(
-    {
-      location: PropTypes.shape({
-        pathname: PropTypes.string,
-      }),
-    },
-  ).isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  }).isRequired,
   updateHeader: PropTypes.func.isRequired,
 };
 
