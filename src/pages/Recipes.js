@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
 import { mustDisplay, renderHeader } from '../redux/actions';
 import Header from '../components/Header';
+import TagsForFilters from '../components/TagsForFilter';
 import Footer from '../components/Footer';
 
 class Recipes extends Component {
@@ -57,25 +58,24 @@ class Recipes extends Component {
     return (
       <>
         <Header history={ history } />
-        <div>
-          <h3>RECIPES</h3>
-          {show && (
-            meals.map(({ strMealThumb, strMeal }, index) => (<FoodCard
-              key={ index }
-              index={ index }
-              src={ strMealThumb }
-              name={ strMeal }
-            />))
-          )}
-          {!show && (
-            drinks.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
-              key={ index }
-              index={ index }
-              src={ strDrinkThumb }
-              name={ strDrink }
-            />))
-          )}
-        </div>
+        <TagsForFilters history={ history } />
+        <h3>RECIPES</h3>
+        {show && (
+          meals.map(({ strMealThumb, strMeal }, index) => (<FoodCard
+            key={ index }
+            index={ index }
+            src={ strMealThumb }
+            name={ strMeal }
+          />))
+        )}
+        {!show && (
+          drinks.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
+            key={ index }
+            index={ index }
+            src={ strDrinkThumb }
+            name={ strDrink }
+          />))
+        )}
         <Footer />
       </>
     );
