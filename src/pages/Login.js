@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const num = 6;
 
@@ -21,13 +22,21 @@ class Login extends React.Component {
     });
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { email } = this.state;
+    const { history } = this.props;
+    console.log('oi');
+
+    localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/meals');
+  };
+
   render() {
     const { email, password } = this.state;
 
     return (
-      <form
-        onSubmit={ this.handleSubmit }
-      >
+      <form>
         <input
           type="email"
           data-testid="email-input"
@@ -56,5 +65,11 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Login;
