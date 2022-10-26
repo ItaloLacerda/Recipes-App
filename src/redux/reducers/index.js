@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import stateHeader from './stateHeader';
-import selectedSearch from './selectedSearch';
+import displayRecipes from './displayRecipes';
 import iMustDisplay from './iMustDisplay';
 
-const rootReducer = combineReducers({ stateHeader, selectedSearch, iMustDisplay });
+const rootReducer = combineReducers({ stateHeader, displayRecipes, iMustDisplay });
 
 export default rootReducer;

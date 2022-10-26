@@ -2,21 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
-import { mustDisplay, renderHeader } from '../redux/actions';
+import { mustDisplay, renderHeader, rendersRecipe } from '../redux/actions';
 import Header from '../components/Header';
 import { fetchMealsAndDrinks } from '../API/fetchAPI';
 
 class Recipes extends Component {
-  state = {
-    meals: [],
-    drinks: [],
-  };
-
   async componentDidMount() {
-    const { setShow, history, updateHeader } = this.props;
+    const { setShow, history, updateHeader, setRecipe } = this.props;
     const { location: { pathname } } = history;
     const LENGTH = 11;
-    // console.log(pathname)
+
     let pageTitle = '';
     if (pathname === '/drinks') {
       pageTitle = 'Drinks';
@@ -28,23 +23,20 @@ class Recipes extends Component {
     updateHeader(pageTitle, true, true);
     const fetchData = await fetchMealsAndDrinks(pathname);
 
-    const data = fetchData.filter((meal, index) => index <= LENGTH);
-    this.setState({
-      meals: data,
-      drinks: data,
-    });
+    const data = fetchData.filter((_, index) => index <= LENGTH);
+    console.log(data);
+    setRecipe(data);
   }
 
   render() {
-    const { meals, drinks } = this.state;
-    const { show, history } = this.props;
+    const { show, history, recipes } = this.props;
     return (
       <>
         <Header history={ history } />
         <div>
           <h3>RECIPES</h3>
           {show && (
-            meals.map(({ strMealThumb, strMeal }, index) => (<FoodCard
+            recipes.map(({ strMealThumb, strMeal }, index) => (<FoodCard
               key={ index }
               index={ index }
               src={ strMealThumb }
@@ -52,7 +44,7 @@ class Recipes extends Component {
             />))
           )}
           {!show && (
-            drinks.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
+            recipes.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
               key={ index }
               index={ index }
               src={ strDrinkThumb }
@@ -69,10 +61,12 @@ const mapDispatchToProps = (dispatch) => ({
   setShow: (bool) => dispatch(mustDisplay(bool)),
   updateHeader: (pageTitle, profileIcon, searchIcon) => (
     dispatch(renderHeader(pageTitle, profileIcon, searchIcon))),
+  setRecipe: (recipes) => dispatch(rendersRecipe(recipes)),
 });
 
-const mapStateToProps = ({ iMustDisplay }) => ({
+const mapStateToProps = ({ iMustDisplay, displayRecipes }) => ({
   show: iMustDisplay.show,
+  recipes: displayRecipes.recipes,
 });
 
 Recipes.propTypes = {
@@ -84,6 +78,8 @@ Recipes.propTypes = {
     }),
   }).isRequired,
   updateHeader: PropTypes.func.isRequired,
+  setRecipe: PropTypes.func.isRequired,
+  recipes: PropTypes.arrayOf.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

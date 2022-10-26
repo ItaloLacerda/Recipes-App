@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
 import { fetchFilterIngredient, fetchSearchFirstLetter,
   fetchSearchName } from '../API/fetchAPI';
+import { rendersRecipe } from '../redux/actions';
 
-function SearchBarHeader({ history }) {
+function SearchBarHeader({ history, setRecipe }) {
   const [searchInput, setSearchInput] = useState('');
   const [radio, setRadio] = useState('');
   const handelChange = ({ target }) => {
@@ -24,15 +26,28 @@ function SearchBarHeader({ history }) {
     }
   };
 
+  const filterRecipes = (resultsFetch, pathname) => {
+    let data = [];
+    const LENGTH = 11;
+    console.log(resultsFetch);
+    if (resultsFetch[pathname.substring(1)] !== null) {
+      data = resultsFetch[pathname.substring(1)].filter((_, index) => index <= LENGTH);
+      setRecipe(data);
+    }
+  };
+
   const handelClick = async (SEARCH_INPUT, RADIO) => {
     const { pathname } = history.location;
     let resultsFetch = [];
+
     switch (RADIO) {
     case 'Ingredient':
       resultsFetch = await fetchFilterIngredient(SEARCH_INPUT, pathname);
+      filterRecipes(resultsFetch, pathname);
       break;
     case 'Name':
       resultsFetch = await fetchSearchName(SEARCH_INPUT, pathname);
+      filterRecipes(resultsFetch, pathname);
       break;
     case 'First letter':
       if (SEARCH_INPUT.length > 1) {
@@ -40,13 +55,19 @@ function SearchBarHeader({ history }) {
         resultsFetch = { [pathname.substring(1)]: [] };
       } else {
         resultsFetch = await fetchSearchFirstLetter(SEARCH_INPUT, pathname);
+        filterRecipes(resultsFetch, pathname);
       }
       break;
     default:
       break;
     }
 
-    if (resultsFetch[pathname.substring(1)].length === 1) {
+    if (resultsFetch[pathname.substring(1)] === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+
+    if (resultsFetch[pathname.substring(1)] !== null
+     && resultsFetch[pathname.substring(1)].length === 1) {
       if (pathname === '/meals') {
         const productId = resultsFetch[pathname.substring(1)][0].idMeal;
         history.push(`${pathname}/${productId}`);
@@ -113,6 +134,11 @@ function SearchBarHeader({ history }) {
     </form>
   );
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setRecipe: (recipes) => dispatch(rendersRecipe(recipes)),
+});
+
 SearchBarHeader.propTypes = {
   history: PropTypes.shape({
     location: PropTypes.shape({
@@ -120,5 +146,6 @@ SearchBarHeader.propTypes = {
     }),
     push: PropTypes.func,
   }).isRequired,
+  setRecipe: PropTypes.func.isRequired,
 };
-export default SearchBarHeader;
+export default connect(null, mapDispatchToProps)(SearchBarHeader);
