@@ -1,100 +1,77 @@
-import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import App from '../App';
-import { renderWithRouterAndRedux } from './helpers/renderWith';
+// import React from 'react';
+// import { act, screen, waitFor } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 
-describe('Testa Componete Header', () => {
-  const SEARCH_TOP_BTN = 'search-top-btn';
+// import { renderWithRouterAndRedux } from './helpers/renderWith';
+// import App from '../App';
+// import mockDrinks from './helpers/mocks/drinks';
+// import mockDrinkIngredients from './helpers/mocks/drinksByIngredient';
+// import mockGinDrinks from './helpers/mocks/ginDrinks';
+// import simulateAPICall from './helpers/simulateAPICall';
 
-  test('Testa se o componente Header existe na rota "/done-recipes"', () => {
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/done-recipes'] });
+// describe('Testa Componete Header', () => {
+//   const SEARCH_TOP_BTN = 'search-top-btn';
+// beforeEach(() => {
+//   jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+//     json: () => Promise.resolve(mockDrinks),
+//   }));
+// });
 
-    expect(history.location.pathname).toBe('/done-recipes');
+// afterEach(() => {
+//   jest.resetAllMocks();
+// });
 
-    const titlePage = screen.getByTestId('page-title');
-    const profileTopBtn = screen.getByTestId('profile-top-btn');
-    const searchTopBtn = screen.queryByTestId(SEARCH_TOP_BTN);
+// test('Testa se o componente Header existe na rota "/done-recipes"', () => {
+//   const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/done-recipes'] });
 
-    expect(titlePage).toBeInTheDocument();
-    expect(profileTopBtn).toBeInTheDocument();
-    expect(searchTopBtn).not.toBeInTheDocument();
-  });
+//   expect(history.location.pathname).toBe('/done-recipes');
 
-  test('Testa se ao clicar no icone de Perfil redireciona para o caminho "/profile"', () => {
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/meals'] });
+//   const titlePage = screen.getByTestId('page-title');
+//   const profileTopBtn = screen.getByTestId('profile-top-btn');
+//   const searchTopBtn = screen.queryByTestId(SEARCH_TOP_BTN);
 
-    expect(history.location.pathname).toBe('/meals');
+//   expect(titlePage).toBeInTheDocument();
+//   expect(profileTopBtn).toBeInTheDocument();
+//   expect(searchTopBtn).not.toBeInTheDocument();
+// });
 
-    const titlePage = screen.getByRole('heading', {
-      name: /meals/i,
-    });
-    const profileTopBtn = screen.getByTestId('profile-top-btn');
-    expect(titlePage).toBeInTheDocument();
-    expect(profileTopBtn).toBeInTheDocument();
+// test('Testa se ao clicar no icone de Perfil redireciona para o caminho "/profile"', () => {
+//   const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/meals'] });
 
-    userEvent.click(profileTopBtn);
-    const titlePageProfile = screen.getByRole('heading', {
-      name: /profile/i,
-    });
-    expect(titlePageProfile).toBeInTheDocument();
-  });
+//   expect(history.location.pathname).toBe('/meals');
 
-  test('Testa se ao clicar no icone de Pesquisa aparece um input de pesquisa', () => {
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/meals'] });
+//   const titlePage = screen.getByRole('heading', {
+//     name: /meals/i,
+//   });
+//   const profileTopBtn = screen.getByTestId('profile-top-btn');
+//   expect(titlePage).toBeInTheDocument();
+//   expect(profileTopBtn).toBeInTheDocument();
 
-    expect(history.location.pathname).toBe('/meals');
+//   userEvent.click(profileTopBtn);
+//   const titlePageProfile = screen.getByRole('heading', {
+//     name: /profile/i,
+//   });
+//   expect(titlePageProfile).toBeInTheDocument();
+// });
 
-    const titlePage = screen.getByRole('heading', {
-      name: /meals/i,
-    });
-    const searchTopBtn = screen.getByTestId(SEARCH_TOP_BTN);
-    expect(searchTopBtn).toBeInTheDocument();
-    expect(titlePage).toBeInTheDocument();
+// test('Testa se ao clicar no icone de Pesquisa aparece um input de pesquisa', () => {
+//   const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/meals'] });
 
-    userEvent.click(searchTopBtn);
-    const searchInput = screen.getByTestId(SEARCH_TOP_BTN);
-    expect(searchInput).toBeInTheDocument();
-  });
+//   expect(history.location.pathname).toBe('/meals');
 
-  test('Testa de a barra de pesquisa realiza chamada a API', () => {
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks'] });
+//   const titlePage = screen.getByRole('heading', {
+//     name: /meals/i,
+//   });
+//   const searchTopBtn = screen.getByTestId(SEARCH_TOP_BTN);
+//   expect(searchTopBtn).toBeInTheDocument();
+//   expect(titlePage).toBeInTheDocument();
 
-    expect(history.location.pathname).toBe('/drinks');
+//   userEvent.click(searchTopBtn);
+//   const searchInput = screen.getByTestId(SEARCH_TOP_BTN);
+//   expect(searchInput).toBeInTheDocument();
+// });
 
-    const searchTopBtn = screen.getByTestId(SEARCH_TOP_BTN);
-    userEvent.click(searchTopBtn);
+// test('Testa de a barra de pesquisa realiza chamada a API ao filtra por ingredientes', async () => {
 
-    const searchInput = screen.getByTestId('search-input');
-    const radioIngredient = screen.getByRole('radio', {
-      name: /ingredient/i,
-    });
-    const radioFirstLetter = screen.getByRole('radio', {
-      name: /first letter/i,
-    });
-    const radioName = screen.getByRole('radio', {
-      name: /name/i,
-    });
-    const searchBtn = screen.getByTestId('exec-search-btn');
-
-    expect(searchBtn).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
-    expect(radioIngredient).toBeInTheDocument();
-    expect(radioFirstLetter).toBeInTheDocument();
-    expect(radioName).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'lemon');
-    expect(searchInput.value).toEqual('lemon');
-
-    userEvent.click(radioIngredient);
-    expect(radioIngredient.value).toEqual('on');
-
-    userEvent.click(radioFirstLetter);
-    expect(radioFirstLetter.value).toEqual('on');
-
-    userEvent.click(radioName);
-    expect(radioName.value).toEqual('on');
-
-    userEvent.click(searchBtn);
-  });
-});
+// });
+// });

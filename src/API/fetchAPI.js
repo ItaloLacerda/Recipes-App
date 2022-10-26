@@ -7,7 +7,6 @@ export const fetchFilterIngredient = async (ingrediente, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
-  console.log(data);
   return data;
 };
 
@@ -34,7 +33,6 @@ export const fetchSearchFirstLetter = async (firstLetter, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
-  console.log(data);
   return data;
 };
 

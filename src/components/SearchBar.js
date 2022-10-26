@@ -77,6 +77,8 @@ function SearchBarHeader({ history, setRecipe }) {
         history.push(`${pathname}/${productId}`);
       }
     }
+
+    setSearchInput('');
   };
 
   return (
