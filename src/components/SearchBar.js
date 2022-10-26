@@ -18,10 +18,8 @@ function SearchBarHeader({ history }) {
     case 'name-search-radio':
       setRadio('Name');
       break;
-    case 'first-letter-search-radio':
-      setRadio('First letter');
-      break;
     default:
+      setRadio('First letter');
       break;
     }
   };
@@ -46,6 +44,7 @@ function SearchBarHeader({ history }) {
       break;
     }
   };
+
   return (
     <form>
       <label htmlFor="search-input">
