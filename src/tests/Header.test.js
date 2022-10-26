@@ -58,9 +58,9 @@ describe('Testa Componete Header', () => {
   });
 
   test('Testa de a barra de pesquisa realiza chamada a API', () => {
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/meals'] });
+    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks'] });
 
-    expect(history.location.pathname).toBe('/meals');
+    expect(history.location.pathname).toBe('/drinks');
 
     const searchTopBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(searchTopBtn);
@@ -83,8 +83,8 @@ describe('Testa Componete Header', () => {
     expect(radioFirstLetter).toBeInTheDocument();
     expect(radioName).toBeInTheDocument();
 
-    userEvent.type(searchInput, 'Corba');
-    expect(searchInput.value).toEqual('Corba');
+    userEvent.type(searchInput, 'lemon');
+    expect(searchInput.value).toEqual('lemon');
 
     userEvent.click(radioIngredient);
     expect(radioIngredient.value).toEqual('on');
