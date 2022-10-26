@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { renderHeader } from '../redux/actions';
 
 class Profile extends React.Component {
@@ -56,6 +57,7 @@ class Profile extends React.Component {
             Logout
           </button>
         </div>
+        <Footer />
       </>
     );
   }
