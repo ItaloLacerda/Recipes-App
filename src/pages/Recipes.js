@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
 import { mustDisplay, renderHeader } from '../redux/actions';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 class Recipes extends Component {
   state = {
@@ -75,6 +76,7 @@ class Recipes extends Component {
             />))
           )}
         </div>
+        <Footer />
       </>
     );
   }
