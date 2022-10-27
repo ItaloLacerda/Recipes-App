@@ -31,7 +31,6 @@ export const fetchSearchFirstLetter = async (firstLetter, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
-  console.log(data);
   return data;
 };
 
@@ -51,6 +50,13 @@ export const searchRecipeDetails = async (revenueId, pathname) => {
   return data[path][0];
 };
 
+export const fetchByCategory = async (type) => {
+  const urlType = type === 'meals' ? 'themealdb' : 'thecocktaildb';
+  const response = await fetch(`https://www.${urlType}.com/api/json/v1/1/list.php?c=list`);
+  const data = await response.json();
+  return data[type];
+};
+
 export const filterByCategory = async (category, pathname) => {
   let URL = '';
   if (pathname === '/meals') {
@@ -60,8 +66,7 @@ export const filterByCategory = async (category, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
-  console.log(data);
-  return data;
+  return data[pathname.substring(1)];
 };
 
 export const fetchMealsAndDrinks = async (pathname) => {

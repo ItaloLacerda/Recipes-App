@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
@@ -8,11 +8,18 @@ import TagsForFilters from '../components/TagsForFilter';
 import { fetchMealsAndDrinks } from '../API/fetchAPI';
 import Footer from '../components/Footer';
 
-class Recipes extends Component {
-  async componentDidMount() {
-    const { setShow, history, updateHeader, setRecipe } = this.props;
+function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
+  const LENGTH = 11;
+
+  const fetchRecipes = async (pathname) => {
+    const fetchData = await fetchMealsAndDrinks(pathname);
+
+    const data = fetchData.filter((_, index) => index <= LENGTH);
+    setRecipe(data);
+  };
+
+  useEffect(() => {
     const { location: { pathname } } = history;
-    const LENGTH = 11;
 
     let pageTitle = '';
     if (pathname === '/drinks') {
@@ -23,41 +30,36 @@ class Recipes extends Component {
       setShow(true);
     }
     updateHeader(pageTitle, true, true);
-    const fetchData = await fetchMealsAndDrinks(pathname);
 
-    const data = fetchData.filter((_, index) => index <= LENGTH);
-    setRecipe(data);
-  }
+    fetchRecipes(pathname);
+  }, []);
 
-  render() {
-    const { show, history, recipes } = this.props;
-    return (
-      <>
-        <Header history={ history } />
-        <TagsForFilters history={ history } />
-        <div>
-          <h3>RECIPES</h3>
-          {show && (
-            recipes.map(({ strMealThumb, strMeal }, index) => (<FoodCard
-              key={ index }
-              index={ index }
-              src={ strMealThumb }
-              name={ strMeal }
-            />))
-          )}
-          {!show && (
-            recipes.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
-              key={ index }
-              index={ index }
-              src={ strDrinkThumb }
-              name={ strDrink }
-            />))
-          )}
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header history={ history } />
+      <TagsForFilters history={ history } />
+      <div>
+        <h3>RECIPES</h3>
+        {show && (
+          recipes.map(({ strMealThumb, strMeal }, index) => (<FoodCard
+            key={ index }
+            index={ index }
+            src={ strMealThumb }
+            name={ strMeal }
+          />))
+        )}
+        {!show && (
+          recipes.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
+            key={ index }
+            index={ index }
+            src={ strDrinkThumb }
+            name={ strDrink }
+          />))
+        )}
+      </div>
+      <Footer />
+    </>
+  );
 }
 
 const mapDispatchToProps = (dispatch) => ({
