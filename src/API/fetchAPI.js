@@ -19,7 +19,6 @@ export const fetchSearchName = async (name, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
-  console.log(data);
   return data;
 };
 

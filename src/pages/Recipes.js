@@ -25,7 +25,6 @@ class Recipes extends Component {
     const fetchData = await fetchMealsAndDrinks(pathname);
 
     const data = fetchData.filter((_, index) => index <= LENGTH);
-    console.log(data);
     setRecipe(data);
   }
 
@@ -81,7 +80,7 @@ Recipes.propTypes = {
   }).isRequired,
   updateHeader: PropTypes.func.isRequired,
   setRecipe: PropTypes.func.isRequired,
-  recipes: PropTypes.arrayOf.isRequired,
+  recipes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

@@ -1,6 +1,7 @@
 const simulateAPICall = (mock) => {
-  jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+  jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
     json: () => Promise.resolve(mock),
+
   }));
 };
 

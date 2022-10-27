@@ -29,7 +29,6 @@ function SearchBarHeader({ history, setRecipe }) {
   const filterRecipes = (resultsFetch, pathname) => {
     let data = [];
     const LENGTH = 11;
-    console.log(resultsFetch);
     if (resultsFetch[pathname.substring(1)] !== null) {
       data = resultsFetch[pathname.substring(1)].filter((_, index) => index <= LENGTH);
       setRecipe(data);
@@ -49,7 +48,7 @@ function SearchBarHeader({ history, setRecipe }) {
       resultsFetch = await fetchSearchName(SEARCH_INPUT, pathname);
       filterRecipes(resultsFetch, pathname);
       break;
-    case 'First letter':
+    default:
       if (SEARCH_INPUT.length > 1) {
         global.alert('Your search must have only 1 (one) character');
         resultsFetch = { [pathname.substring(1)]: [] };
@@ -57,8 +56,6 @@ function SearchBarHeader({ history, setRecipe }) {
         resultsFetch = await fetchSearchFirstLetter(SEARCH_INPUT, pathname);
         filterRecipes(resultsFetch, pathname);
       }
-      break;
-    default:
       break;
     }
 
@@ -73,12 +70,11 @@ function SearchBarHeader({ history, setRecipe }) {
         history.push(`${pathname}/${productId}`);
       }
       if (pathname === '/drinks') {
+        console.log('entrou');
         const productId = resultsFetch[pathname.substring(1)][0].idDrink;
         history.push(`${pathname}/${productId}`);
       }
     }
-
-    setSearchInput('');
   };
 
   return (

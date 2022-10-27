@@ -21,7 +21,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 DoneRecipes.propTypes = {
   updateHeader: PropTypes.func.isRequired,
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}),
 };
 
+DoneRecipes.defaultProps = {
+  history: {},
+};
 export default connect(null, mapDispatchToProps)(DoneRecipes);

@@ -70,7 +70,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 Profile.propTypes = {
   updateHeader: PropTypes.func.isRequired,
-  history: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Profile);
