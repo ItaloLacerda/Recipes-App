@@ -31,19 +31,36 @@ export const fetchSearchFirstLetter = async (firstLetter, pathname) => {
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
+  console.log(data);
   return data;
 };
 
 export const searchRecipeDetails = async (revenueId, pathname) => {
   let URL = '';
+  let path = '';
 
   if (pathname === `/meals/${revenueId.id}`) {
     URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${revenueId.id}`;
+    path = 'meals';
   } else if (pathname === `/drinks/${revenueId.id}`) {
+    path = 'drinks';
     URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${revenueId.id}`;
   }
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
+  return data[path][0];
+};
+
+export const filterByCategory = async (category, pathname) => {
+  let URL = '';
+  if (pathname === '/meals') {
+    URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+  } else if (pathname === '/drinks') {
+    URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+  }
+  const reponseAPI = await fetch(URL);
+  const data = await reponseAPI.json();
+  console.log(data);
   return data;
 };
 
