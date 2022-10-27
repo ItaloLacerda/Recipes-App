@@ -9,14 +9,19 @@ import { renderHeader } from '../redux/actions';
 class Profile extends React.Component {
   state = {
     email: '',
-  }
+  };
 
   componentDidMount() {
     const { updateHeader } = this.props;
-    const getUserEmail = JSON.parse(localStorage.getItem('user')).email;
+    const getUserEmail = localStorage.getItem('user');
+    let email = '';
+    if (getUserEmail !== null) {
+      email = JSON.parse(getUserEmail).email;
+    }
+    console.log(email);
     this.setState({
-      email: getUserEmail,
-    })
+      email,
+    });
     updateHeader('Profile', true, false);
   }
 
@@ -35,12 +40,14 @@ class Profile extends React.Component {
 
   render() {
     const { history } = this.props;
-    const { email } = this.state
+    const { email } = this.state;
     return (
       <>
         <Header history={ history } />
         <div>
+
           <span data-testid="profile-email">{ email }</span>
+
           <button
             data-testid="profile-done-btn"
             type="button"
