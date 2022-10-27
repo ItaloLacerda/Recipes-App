@@ -2,21 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FoodCard from '../components/FoodCard';
-import { mustDisplay, renderHeader } from '../redux/actions';
+import { mustDisplay, renderHeader, rendersRecipe } from '../redux/actions';
 import Header from '../components/Header';
 import TagsForFilters from '../components/TagsForFilter';
+import { fetchMealsAndDrinks } from '../API/fetchAPI';
 import Footer from '../components/Footer';
 
 class Recipes extends Component {
-  state = {
-    meals: [],
-    drinks: [],
-  };
-
-  componentDidMount() {
-    const { setShow, history, updateHeader } = this.props;
+  async componentDidMount() {
+    const { setShow, history, updateHeader, setRecipe } = this.props;
     const { location: { pathname } } = history;
-    // console.log(pathname)
+    const LENGTH = 11;
+
     let pageTitle = '';
     if (pathname === '/drinks') {
       pageTitle = 'Drinks';
@@ -26,56 +23,37 @@ class Recipes extends Component {
       setShow(true);
     }
     updateHeader(pageTitle, true, true);
-    this.fetchMeals();
-    this.fetchDrinks();
+    const fetchData = await fetchMealsAndDrinks(pathname);
+
+    const data = fetchData.filter((_, index) => index <= LENGTH);
+    setRecipe(data);
   }
 
-  fetchMeals = async () => {
-    const endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    const MEALS_LENGTH = 11;
-    const request = await fetch(endpoint);
-    const { meals } = await request.json();
-    const mealsData = meals.filter((meal, index) => index <= MEALS_LENGTH);
-    this.setState({
-      meals: mealsData,
-    });
-  };
-
-  fetchDrinks = async () => {
-    const endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const DRINKS_LENGTH = 11;
-    const request = await fetch(endpoint);
-    const { drinks } = await request.json();
-    const drinksData = drinks.filter((drink, index) => index <= DRINKS_LENGTH);
-    this.setState({
-      drinks: drinksData,
-    });
-  };
-
   render() {
-    const { meals, drinks } = this.state;
-    const { show, history } = this.props;
+    const { show, history, recipes } = this.props;
     return (
       <>
         <Header history={ history } />
         <TagsForFilters history={ history } />
-        <h3>RECIPES</h3>
-        {show && (
-          meals.map(({ strMealThumb, strMeal }, index) => (<FoodCard
-            key={ index }
-            index={ index }
-            src={ strMealThumb }
-            name={ strMeal }
-          />))
-        )}
-        {!show && (
-          drinks.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
-            key={ index }
-            index={ index }
-            src={ strDrinkThumb }
-            name={ strDrink }
-          />))
-        )}
+        <div>
+          <h3>RECIPES</h3>
+          {show && (
+            recipes.map(({ strMealThumb, strMeal }, index) => (<FoodCard
+              key={ index }
+              index={ index }
+              src={ strMealThumb }
+              name={ strMeal }
+            />))
+          )}
+          {!show && (
+            recipes.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
+              key={ index }
+              index={ index }
+              src={ strDrinkThumb }
+              name={ strDrink }
+            />))
+          )}
+        </div>
         <Footer />
       </>
     );
@@ -86,23 +64,25 @@ const mapDispatchToProps = (dispatch) => ({
   setShow: (bool) => dispatch(mustDisplay(bool)),
   updateHeader: (pageTitle, profileIcon, searchIcon) => (
     dispatch(renderHeader(pageTitle, profileIcon, searchIcon))),
+  setRecipe: (recipes) => dispatch(rendersRecipe(recipes)),
 });
 
-const mapStateToProps = ({ iMustDisplay }) => ({
+const mapStateToProps = ({ iMustDisplay, displayRecipes }) => ({
   show: iMustDisplay.show,
+  recipes: displayRecipes.recipes,
 });
 
 Recipes.propTypes = {
   show: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
-  history: PropTypes.shape(
-    {
-      location: PropTypes.shape({
-        pathname: PropTypes.string,
-      }),
-    },
-  ).isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  }).isRequired,
   updateHeader: PropTypes.func.isRequired,
+  setRecipe: PropTypes.func.isRequired,
+  recipes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

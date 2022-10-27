@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import SearchBarHeader from './SearchBarHeader';
+import SearchBarHeader from './SearchBar';
 
 function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
   const [search, setSearch] = useState(false);
@@ -43,7 +43,7 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
           />
         </button>)}
       {search && (
-        <SearchBarHeader />
+        <SearchBarHeader history={ history } />
       )}
     </>
   );
