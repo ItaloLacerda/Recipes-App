@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import FoodCard from '../components/FoodCard';
 import { mustDisplay, renderHeader, rendersRecipe } from '../redux/actions';
 import Header from '../components/Header';
@@ -36,25 +37,32 @@ function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
 
   return (
     <>
+      {console.log(recipes)}
       <Header history={ history } />
       <TagsForFilters history={ history } />
       <div>
         <h3>RECIPES</h3>
         {show && (
-          recipes.map(({ strMealThumb, strMeal }, index) => (<FoodCard
-            key={ index }
-            index={ index }
-            src={ strMealThumb }
-            name={ strMeal }
-          />))
+          recipes.map(({ strMealThumb, strMeal, idMeal }, index) => (
+            <Link to={ `/meals/${idMeal}` } key={ index }>
+              <FoodCard
+                index={ index }
+                src={ strMealThumb }
+                name={ strMeal }
+              />
+            </Link>
+          ))
         )}
         {!show && (
-          recipes.map(({ strDrinkThumb, strDrink }, index) => (<FoodCard
-            key={ index }
-            index={ index }
-            src={ strDrinkThumb }
-            name={ strDrink }
-          />))
+          recipes.map(({ strDrinkThumb, strDrink, idDrink }, index) => (
+            <Link to={ `/drinks/${idDrink}` } key={ index }>
+              <FoodCard
+                index={ index }
+                src={ strDrinkThumb }
+                name={ strDrink }
+              />
+            </Link>
+          ))
         )}
       </div>
       <Footer />
