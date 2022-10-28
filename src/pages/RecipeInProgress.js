@@ -11,7 +11,7 @@ function RecipeInProgress({ match }) {
       url.replace('/in-progress', ''),
     );
     setProductDetails(details);
-    console.log(productDetails);
+    // console.log(productDetails);
   }
   useEffect(() => {
     fetchFirstDetails();

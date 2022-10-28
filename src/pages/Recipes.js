@@ -37,7 +37,7 @@ function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
 
   return (
     <>
-      {console.log(recipes)}
+      {/* {console.log(recipes)} */}
       <Header history={ history } />
       <TagsForFilters history={ history } />
       <div>

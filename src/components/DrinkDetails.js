@@ -29,7 +29,7 @@ export default function DrinkDetails({ match }) {
   const fetchFirstDetails = async () => {
     const { params: id, url } = match;
     const details = await searchRecipeDetails(id, url);
-    console.log(details);
+    // console.log(details);
     setProductDetails(details);
     filterIngredients(details);
   };
