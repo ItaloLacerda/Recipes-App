@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DrinkDetails from '../components/DrinkDetails';
@@ -7,11 +7,26 @@ import CarouselMeal from '../components/CarouselMeal';
 import CarouselDrink from '../components/CarouselDrink';
 
 function RecipeDetails({ match, history }) {
+  // console.log(match)
+
   function handleClick() {
     history.push(`${match.url}/in-progress`);
   }
+  const [buttonName, setButtonName] = useState('Start Recipe');
+  const [renderButton, setRenderButton] = useState(true);
 
-  const nameButton = 'Start Recipe';
+  useEffect(() => {
+    const { params: { id } } = match;
+    // console.log(id)
+    const doneRecipes = localStorage.getItem('doneRecipes');
+    if (doneRecipes) {
+      doneRecipes.forEach((recipe) => {
+        if (recipe.id === id) {
+          setRenderButton(false);
+        }
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -23,14 +38,18 @@ function RecipeDetails({ match, history }) {
         match.url.includes('/meals')
           ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
       }
-      <button
-        type="button"
-        style={ { position: 'fixed', bottom: '0px' } }
-        data-testid="start-recipe-btn"
-        onClick={ handleClick }
-      >
-        {nameButton}
-      </button>
+      {
+        renderButton && (
+          <button
+            type="button"
+            style={ { position: 'fixed', bottom: '0px' } }
+            data-testid="start-recipe-btn"
+            onClick={ handleClick }
+          >
+            {buttonName}
+          </button>
+        )
+      }
     </>
   );
 }
