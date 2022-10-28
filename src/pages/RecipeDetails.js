@@ -59,6 +59,20 @@ function RecipeDetails({ match, history }) {
         match.url.includes('/meals')
           ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
       }
+
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        share
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorite
+      </button>
+
       {
         renderButton && (
           <button
