@@ -10,10 +10,13 @@ export default function MealsDetails({ match }) {
   const [ingredientList, setIngredientList] = useState([]);
   const filterIngredients = (details) => {
     const newIngredientList = [];
+
     const ingredients = Object.entries(details)
       .filter((ingredient) => ingredient[0].includes('strIngredient'));
+
     const measure = Object.entries(details)
       .filter((ingredient) => ingredient[0].includes('strMeasure'));
+
     ingredients.forEach((ingredient, index) => {
       if (ingredient[1] !== '') {
         newIngredientList.push({
@@ -28,7 +31,6 @@ export default function MealsDetails({ match }) {
   const fetchFirstDetails = async () => {
     const { params: id, url } = match;
     const details = await searchRecipeDetails(id, url);
-    console.log(details);
     setProductDetails(details);
     filterIngredients(details);
   };
