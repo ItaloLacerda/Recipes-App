@@ -6,7 +6,13 @@ import MealsDetails from '../components/MealsDetails';
 import CarouselMeal from '../components/CarouselMeal';
 import CarouselDrink from '../components/CarouselDrink';
 
-function RecipeDetails({ match }) {
+function RecipeDetails({ match, history }) {
+  function handleClick() {
+    history.push(`${match.url}/in-progress`);
+  }
+
+  const nameButton = 'Start Recipe';
+
   return (
     <>
       {
@@ -21,14 +27,18 @@ function RecipeDetails({ match }) {
         type="button"
         style={ { position: 'fixed', bottom: '0px' } }
         data-testid="start-recipe-btn"
+        onClick={ handleClick }
       >
-        Start Recipe
+        {nameButton}
       </button>
     </>
   );
 }
 
 RecipeDetails.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   match: PropTypes.shape({
     url: PropTypes.string,
   }).isRequired,
