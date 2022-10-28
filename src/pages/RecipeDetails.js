@@ -12,6 +12,7 @@ function RecipeDetails({ match, history }) {
   }
   const [buttonName, setButtonName] = useState('Start Recipe');
   const [renderButton, setRenderButton] = useState(true);
+  const [renderLinkCopied, setRenderLinkCopied] = useState(false);
 
   function checkComplet(id) {
     const doneRecipes = localStorage.getItem('doneRecipes');
@@ -49,6 +50,15 @@ function RecipeDetails({ match, history }) {
     checkProgress(id, path);
   }, []);
 
+  function copyURL() {
+    const time = 2000;
+    navigator.clipboard.writeText(`http://localhost:3000${match.url}`);
+    setRenderLinkCopied(true);
+    setTimeout(() => {
+      setRenderLinkCopied(false);
+    }, time);
+  }
+
   return (
     <>
       {
@@ -56,13 +66,12 @@ function RecipeDetails({ match, history }) {
           ? <DrinkDetails match={ match } /> : <MealsDetails match={ match } />
       }
       {
-        match.url.includes('/meals')
-          ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
+        renderLinkCopied && <p>Link copied!</p>
       }
-
       <button
         type="button"
         data-testid="share-btn"
+        onClick={ copyURL }
       >
         share
       </button>
@@ -72,6 +81,10 @@ function RecipeDetails({ match, history }) {
       >
         Favorite
       </button>
+      {
+        match.url.includes('/meals')
+          ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
+      }
 
       {
         renderButton && (
