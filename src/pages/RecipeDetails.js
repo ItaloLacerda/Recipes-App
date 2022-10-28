@@ -17,6 +17,13 @@ function RecipeDetails({ match }) {
         match.url.includes('/meals')
           ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
       }
+      <button
+        type="button"
+        style={ { position: 'fixed', bottom: '0px' } }
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </>
   );
 }
