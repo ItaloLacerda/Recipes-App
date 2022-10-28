@@ -18,6 +18,9 @@ function RecipeDetails({ match }) {
 
 RecipeDetails.propTypes = {
   match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
     url: PropTypes.string,
   }).isRequired,
 };
