@@ -7,17 +7,13 @@ import CarouselMeal from '../components/CarouselMeal';
 import CarouselDrink from '../components/CarouselDrink';
 
 function RecipeDetails({ match, history }) {
-  // console.log(match)
-
   function handleClick() {
     history.push(`${match.url}/in-progress`);
   }
   const [buttonName, setButtonName] = useState('Start Recipe');
   const [renderButton, setRenderButton] = useState(true);
 
-  useEffect(() => {
-    const { params: { id } } = match;
-    // console.log(id)
+  function checkComplet(id) {
     const doneRecipes = localStorage.getItem('doneRecipes');
     if (doneRecipes) {
       doneRecipes.forEach((recipe) => {
@@ -26,6 +22,31 @@ function RecipeDetails({ match, history }) {
         }
       });
     }
+  }
+
+  function checkProgress(id, path) {
+    let currentPath = '';
+    if (path.includes('meals')) {
+      currentPath = 'meals';
+    } else {
+      currentPath = 'drinks';
+    }
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (inProgressRecipes) {
+      const recipesId = Object.keys(inProgressRecipes[currentPath]);
+      recipesId.forEach((recipe) => {
+        if (recipe === id) {
+          setButtonName('Continue Recipe');
+        }
+      });
+    }
+  }
+
+  useEffect(() => {
+    const { params: { id }, path } = match;
+    // console.log(match);
+    checkComplet(id);
+    checkProgress(id, path);
   }, []);
 
   return (
@@ -60,6 +81,10 @@ RecipeDetails.propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    path: PropTypes.string,
   }).isRequired,
 };
 
