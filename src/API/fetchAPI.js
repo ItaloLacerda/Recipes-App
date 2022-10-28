@@ -50,6 +50,20 @@ export const searchRecipeDetails = async (revenueId, pathname) => {
   return data[path][0];
 };
 
+export const seekRecommendations = async (revenueId, pathname) => {
+  let URL = '';
+
+  if (pathname === `/meals/${revenueId.id}`) {
+    URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  } else if (pathname === `/drinks/${revenueId.id}`) {
+    URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  }
+  const reponseAPI = await fetch(URL);
+  const data = await reponseAPI.json();
+  console.log(data);
+  return data;
+};
+
 export const fetchByCategory = async (type) => {
   const urlType = type === 'meals' ? 'themealdb' : 'thecocktaildb';
   const response = await fetch(`https://www.${urlType}.com/api/json/v1/1/list.php?c=list`);
