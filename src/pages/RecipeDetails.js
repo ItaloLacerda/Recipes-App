@@ -13,6 +13,7 @@ function RecipeDetails({ match, history }) {
   const [buttonName, setButtonName] = useState('Start Recipe');
   const [renderButton, setRenderButton] = useState(true);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  // const [useRecipeDatail, setUseRecipeDatail] = useState({});
 
   function checkComplet(id) {
     const doneRecipes = localStorage.getItem('doneRecipes');
@@ -45,7 +46,6 @@ function RecipeDetails({ match, history }) {
 
   useEffect(() => {
     const { params: { id }, path } = match;
-    // console.log(match);
     checkComplet(id);
     checkProgress(id, path);
   }, []);
@@ -58,6 +58,30 @@ function RecipeDetails({ match, history }) {
       setRenderLinkCopied(false);
     }, time);
   }
+  // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
+  const saveFavorite = () => {
+    const { path } = match;
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const recipeDetail = JSON.parse(localStorage.getItem('recipeDatail'));
+    const id = path.includes('meals') ? 'meal' : 'drink';
+    console.log(id);
+    const setStorage = {
+      id: path.includes('meals') ? recipeDetail.idMeal : recipeDetail.idDrink,
+      type: path.includes('meals') ? 'meal' : 'drink',
+      nationality: path.includes('meals') ? recipeDetail.strArea : '',
+      category: recipeDetail.strCategory,
+      alcoholicOrNot: path.includes('meals') ? '' : recipeDetail.strAlcoholic,
+      name: path.includes('meals') ? recipeDetail.strMeal : recipeDetail.strDrink,
+      image: path.includes('meals')
+        ? recipeDetail.strMealThumb : recipeDetail.strDrinkThumb,
+    };
+    if (favoriteRecipes) {
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([setStorage]));
+    }
+  };
 
   return (
     <>
@@ -78,6 +102,7 @@ function RecipeDetails({ match, history }) {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ saveFavorite }
       >
         Favorite
       </button>

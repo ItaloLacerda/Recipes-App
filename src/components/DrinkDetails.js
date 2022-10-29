@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { searchRecipeDetails } from '../API/fetchAPI';
 
-export default function DrinkDetails({ match }) {
+function DrinkDetails({ match }) {
   const [productDetails, setProductDetails] = useState({});
   const [ingredientList, setIngredientList] = useState([]);
   const filterIngredients = (details) => {
@@ -31,6 +31,7 @@ export default function DrinkDetails({ match }) {
     const details = await searchRecipeDetails(id, url);
     // console.log(details);
     setProductDetails(details);
+    localStorage.setItem('recipeDatail', JSON.stringify(details));
     filterIngredients(details);
   };
 
@@ -74,3 +75,5 @@ DrinkDetails.propTypes = {
     url: PropTypes.string,
   }).isRequired,
 };
+
+export default DrinkDetails;
