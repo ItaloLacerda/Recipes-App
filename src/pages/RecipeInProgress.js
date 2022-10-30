@@ -5,6 +5,9 @@ import { searchRecipeDetails } from '../API/fetchAPI';
 const ingredientMark = (ingredient) => {
   const content = document.querySelector(`#${ingredient}`);
   content.classList.add('riscado');
+  const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+  marked[ingredient] = true;
+  localStorage.setItem('inProgressRecipes', JSON.stringify(marked));
 };
 
 function arrayIngredients(recipe) {
@@ -32,6 +35,8 @@ function arrayIngredients(recipe) {
 function RecipeInProgress({ match }) {
   const [productDetails, setProductDetails] = useState({});
   const ingredients = arrayIngredients(productDetails);
+
+  const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
 
   async function fetchFirstDetails() {
     const { params: id, url } = match;
@@ -68,6 +73,7 @@ function RecipeInProgress({ match }) {
         { ingredients.map((element, index) => (
           <label
             id={ `id${index}-ingredient-step` }
+            className={ marked[`id${index}-ingredient-step`] ? 'riscado' : '' }
             htmlFor="recipe"
             data-testid={ `${index}-ingredient-step` }
             key={ index }
@@ -75,6 +81,7 @@ function RecipeInProgress({ match }) {
             <input
               type="checkbox"
               onChangeCapture={ () => ingredientMark(`id${index}-ingredient-step`) }
+              checked={ marked[`id${index}-ingredient-step`] }
             />
             {`${element.name} ${element.medida}`}
           </label>

@@ -26,7 +26,6 @@ class Login extends React.Component {
     event.preventDefault();
     const { email } = this.state;
     const { history } = this.props;
-    console.log('oi');
 
     localStorage.setItem('user', JSON.stringify({ email }));
     history.push('/meals');
