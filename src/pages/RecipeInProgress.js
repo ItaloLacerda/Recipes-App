@@ -24,12 +24,13 @@ function arrayIngredients(recipe) {
   return ingredients;
 }
 
-function RecipeInProgress({ match }) {
+function RecipeInProgress({ match, history }) {
   const [productDetails, setProductDetails] = useState({});
   const ingredients = arrayIngredients(productDetails);
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
+
   const ingredientMark = (ingredient) => {
     const content = document.querySelector(`#${ingredient}`);
     content.classList.add('riscado');
@@ -40,7 +41,23 @@ function RecipeInProgress({ match }) {
   };
 
   const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
-  console.log(Object.keys(marked).length, ingredients.length);
+
+  const redirect = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    doneRecipes.push({
+      alcoholicOrNot: productDetails.strAlcoholic,
+      category: productDetails.strCategory,
+      doneDate: new Date().toISOString(),
+      id: productDetails.idDrink,
+      image: productDetails.strDrinkThumb,
+      name: productDetails.strDrink,
+      nationality: '',
+      tags: productDetails.strTags ? productDetails.strTags.split(',') : [],
+      type: 'drink',
+    });
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    history.push('/done-recipes');
+  };
 
   async function fetchFirstDetails() {
     const { params: id, url } = match;
@@ -50,9 +67,11 @@ function RecipeInProgress({ match }) {
     );
     setProductDetails(details);
   }
+
   useEffect(() => {
     fetchFirstDetails();
   }, []);
+
   return (
     <div>
       <img
@@ -95,6 +114,7 @@ function RecipeInProgress({ match }) {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ Object.keys(marked).length !== ingredients.length }
+        onClick={ redirect }
       >
         Finalizar
 
@@ -105,6 +125,9 @@ function RecipeInProgress({ match }) {
 }
 
 RecipeInProgress.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id_da_receita: PropTypes.string,
