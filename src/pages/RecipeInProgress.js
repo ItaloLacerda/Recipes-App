@@ -2,14 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { searchRecipeDetails } from '../API/fetchAPI';
 
-const ingredientMark = (ingredient) => {
-  const content = document.querySelector(`#${ingredient}`);
-  content.classList.add('riscado');
-  const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
-  marked[ingredient] = true;
-  localStorage.setItem('inProgressRecipes', JSON.stringify(marked));
-};
-
 function arrayIngredients(recipe) {
   if (!recipe) {
     return [];
@@ -36,7 +28,19 @@ function RecipeInProgress({ match }) {
   const [productDetails, setProductDetails] = useState({});
   const ingredients = arrayIngredients(productDetails);
 
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const ingredientMark = (ingredient) => {
+    const content = document.querySelector(`#${ingredient}`);
+    content.classList.add('riscado');
+    const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+    marked[ingredient] = true;
+    localStorage.setItem('inProgressRecipes', JSON.stringify(marked));
+    forceUpdate();
+  };
+
   const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+  console.log(Object.keys(marked).length, ingredients.length);
 
   async function fetchFirstDetails() {
     const { params: id, url } = match;
@@ -66,8 +70,6 @@ function RecipeInProgress({ match }) {
 
       <p data-testid="instructions">{productDetails.strInstructions}</p>
 
-      <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
-
       <form>
 
         { ingredients.map((element, index) => (
@@ -88,6 +90,15 @@ function RecipeInProgress({ match }) {
 
         ))}
       </form>
+
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ Object.keys(marked).length !== ingredients.length }
+      >
+        Finalizar
+
+      </button>
 
     </div>
   );
