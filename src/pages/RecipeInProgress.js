@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { searchRecipeDetails } from '../API/fetchAPI';
 
+const ingredientMark = (ingredient) => {
+  const content = document.querySelector(`#${ingredient}`);
+  content.classList.add('riscado');
+};
+
 function arrayIngredients(recipe) {
   if (!recipe) {
     return [];
@@ -62,11 +67,15 @@ function RecipeInProgress({ match }) {
 
         { ingredients.map((element, index) => (
           <label
+            id={ `id${index}-ingredient-step` }
             htmlFor="recipe"
             data-testid={ `${index}-ingredient-step` }
             key={ index }
           >
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChangeCapture={ () => ingredientMark(`id${index}-ingredient-step`) }
+            />
             {`${element.name} ${element.medida}`}
           </label>
 
