@@ -10,12 +10,22 @@ import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes({ updateHeader, history }) {
   const [favorites, setFavorites] = useState([]);
+  const [renderLinkCopied, setRenderLinkCopied] = useState(false);
 
   useEffect(() => {
     updateHeader('Favorite Recipes', true, false);
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setFavorites(favoriteRecipes);
   }, []);
+
+  function copyURL(typeRecipe, idRecipe) {
+    const time = 2000;
+    navigator.clipboard.writeText(`http://localhost:3000/${typeRecipe}s/${idRecipe}`);
+    setRenderLinkCopied(true);
+    setTimeout(() => {
+      setRenderLinkCopied(false);
+    }, time);
+  }
   return (
     <div>
       <Header history={ history } />
@@ -71,8 +81,12 @@ function FavoriteRecipes({ updateHeader, history }) {
                   </h3>
                 </div>
               </h5>
+              {
+                renderLinkCopied && <p>Link copied!</p>
+              }
               <button
                 type="button"
+                onClick={ () => copyURL(recipes.type, recipes.id) }
               >
                 <img
                   data-testid={ `${index}-horizontal-share-btn` }
