@@ -33,6 +33,27 @@ function FavoriteRecipes({ updateHeader, history }) {
       setRenderLinkCopied(false);
     }, time);
   }
+
+  function filterRecipes({ target }) {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    if (target.name === 'meal') {
+      const newFavoriteMeal = favoriteRecipes
+        .filter((recipe) => recipe.type === target.name);
+      setFavorites(newFavoriteMeal);
+    }
+
+    if (target.name === 'drink') {
+      const newFavoriteDrink = favoriteRecipes
+        .filter((recipe) => recipe.type === target.name);
+      setFavorites(newFavoriteDrink);
+    }
+
+    if (target.name === 'all') {
+      setFavorites(favoriteRecipes);
+    }
+  }
+
   return (
     <div>
       <Header history={ history } />
@@ -41,19 +62,25 @@ function FavoriteRecipes({ updateHeader, history }) {
       }
       <button
         type="button"
+        name="all"
         data-testid="filter-by-all-btn"
+        onClick={ filterRecipes }
       >
         All
       </button>
       <button
         type="button"
+        name="meal"
         data-testid="filter-by-meal-btn"
+        onClick={ filterRecipes }
       >
         Meals
       </button>
       <button
         type="button"
+        name="drink"
         data-testid="filter-by-drink-btn"
+        onClick={ filterRecipes }
       >
         Drinks
       </button>
