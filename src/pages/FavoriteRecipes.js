@@ -54,11 +54,22 @@ function FavoriteRecipes({ updateHeader, history }) {
                 {
                   `Name: ${recipes.name}`
                 }
-                <h3 data-testid={ `${index}-horizontal-top-text` }>
-                  {
-                    `${recipes.nationality} - ${recipes.category}`
-                  }
-                </h3>
+                <div data-testid={ `${index}-horizontal-top-text` }>
+                  <h3>
+                    {
+                      `${recipes.nationality} - ${recipes.category}`
+                    }
+                    {
+                      recipes.type === 'drink' && (
+                        <p>
+                          {
+                            recipes.alcoholicOrNot
+                          }
+                        </p>
+                      )
+                    }
+                  </h3>
+                </div>
               </h5>
               <button
                 type="button"
