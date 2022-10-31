@@ -41,6 +41,8 @@ describe('Testa o componente <Login.js />', () => {
 
     const BTN = screen.getByRole('button');
     userEvent.click(BTN);
+    const title = screen.getByRole('heading', { name: /meals/i });
+    expect(title).toBeInTheDocument();
     expect(history.location.pathname).toBe('/meals');
   });
 });
