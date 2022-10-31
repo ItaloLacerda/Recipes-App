@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { renderHeader } from '../redux/actions';
 
@@ -88,33 +89,35 @@ function FavoriteRecipes({ updateHeader, history }) {
         {
           favorites.map((recipes, index) => (
             <div key={ `${recipes}${index}` }>
-              <img
-                src={ recipes.image }
-                data-testid={ `${index}-horizontal-image` }
-                alt="recipe-img"
-                width="100px"
-              />
-              <h5 data-testid={ `${index}-horizontal-name` }>
-                {
-                  `Name: ${recipes.name}`
-                }
-                <div data-testid={ `${index}-horizontal-top-text` }>
-                  <h3>
-                    {
-                      `${recipes.nationality} - ${recipes.category}`
-                    }
-                    {
-                      recipes.type === 'drink' && (
-                        <p>
-                          {
-                            recipes.alcoholicOrNot
-                          }
-                        </p>
-                      )
-                    }
-                  </h3>
-                </div>
-              </h5>
+              <Link to={ `/${recipes.type}s/${recipes.id}` }>
+                <img
+                  src={ recipes.image }
+                  data-testid={ `${index}-horizontal-image` }
+                  alt="recipe-img"
+                  width="100px"
+                />
+                <h5 data-testid={ `${index}-horizontal-name` }>
+                  {
+                    `Name: ${recipes.name}`
+                  }
+                </h5>
+              </Link>
+              <div data-testid={ `${index}-horizontal-top-text` }>
+                <h3>
+                  {
+                    `${recipes.nationality} - ${recipes.category}`
+                  }
+                  {
+                    recipes.type === 'drink' && (
+                      <p>
+                        {
+                          recipes.alcoholicOrNot
+                        }
+                      </p>
+                    )
+                  }
+                </h3>
+              </div>
               {
                 renderLinkCopied && <p>Link copied!</p>
               }
