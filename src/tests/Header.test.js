@@ -107,7 +107,7 @@ describe('Testa Componete Header', () => {
     act(() => {
       simulateAPICall(mockDrinkIngredients);
     });
-    expect(fetch).toBeCalledTimes(2);
+    expect(fetch).toBeCalledTimes(3);
   });
 
   test('Testa de a barra de pesquisa realiza chamada a API ao filtra por nome', () => {
@@ -141,7 +141,7 @@ describe('Testa Componete Header', () => {
       userEvent.click(searchBtn);
       simulateAPICall(mockGinDrinks);
     });
-    expect(fetch).toBeCalledTimes(2);
+    expect(fetch).toBeCalledTimes(3);
   });
 
   test('Testa de a barra de pesquisa realiza chamada a API ao filtra pela primeira letra', () => {
@@ -175,7 +175,7 @@ describe('Testa Componete Header', () => {
       userEvent.click(searchBtn);
       simulateAPICall(mockGinDrinks);
     });
-    expect(fetch).toBeCalledTimes(2);
+    expect(fetch).toBeCalledTimes(3);
   });
 
   test('Testa se exibe um alert caso o filtra pela primeira letra e incluir mais de uma letra no input', () => {
