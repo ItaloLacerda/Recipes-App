@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -9,8 +9,12 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes({ updateHeader, history }) {
+  const [favorites, setFavorites] = useState([]);
+
   useEffect(() => {
     updateHeader('Favorite Recipes', true, false);
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setFavorites(favoriteRecipes);
   }, []);
   return (
     <div>
@@ -33,25 +37,31 @@ function FavoriteRecipes({ updateHeader, history }) {
       >
         Drinks
       </button>
-      {/* <div>
-        <img data-testid={ `${index}-horizontal-image` } alt="recipe-img" />
-        <h3 data-testid={ `${index}-horizontal-top-text` }>Category:</h3>
-        <h5 data-testid={ `${index}-horizontal-name` }>Name:</h5>
-        <span data-testid={ `${index}-horizontal-done-date` }>Date:</span>
-        <span data-testid={ `${index}-${tagName}-horizontal-tag` }>Tags:</span>
-        <button
-          type="button"
-          data-testid={ `${index}-horizontal-share-btn` }
-        >
-          <img src={ shareIcon } alt="share" />
-        </button>
-        <button
-          type="button"
-          data-testid={ `${index}-horizontal-favorite-btn` }
-        >
-          <img src={ blackHeartIcon } alt="favorite" />
-        </button>
-      </div> */}
+      <div>
+        {
+          favorites.map((recipes, index) => (
+            <div key={ `${recipes}${index}` }>
+              <img data-testid={ `${index}-horizontal-image` } alt="recipe-img" />
+              <h3 data-testid={ `${index}-horizontal-top-text` }>Category:</h3>
+              <h5 data-testid={ `${index}-horizontal-name` }>Name:</h5>
+              {/*               <span data-testid={ `${index}-horizontal-done-date` }>Date:</span>
+              <span data-testid={ `${index}-horizontal-tag` }>Tags:</span> */}
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-share-btn` }
+              >
+                <img src={ shareIcon } alt="share" />
+              </button>
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-favorite-btn` }
+              >
+                <img src={ blackHeartIcon } alt="favorite" />
+              </button>
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 }
