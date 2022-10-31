@@ -33,7 +33,7 @@ function FavoriteRecipes({ updateHeader, history }) {
       >
         Drinks
       </button>
-      <div>
+      {/* <div>
         <img data-testid={ `${index}-horizontal-image` } alt="recipe-img" />
         <h3 data-testid={ `${index}-horizontal-top-text` }>Category:</h3>
         <h5 data-testid={ `${index}-horizontal-name` }>Name:</h5>
@@ -51,7 +51,7 @@ function FavoriteRecipes({ updateHeader, history }) {
         >
           <img src={ blackHeartIcon } alt="favorite" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
