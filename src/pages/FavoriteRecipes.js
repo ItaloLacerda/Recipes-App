@@ -18,6 +18,13 @@ function FavoriteRecipes({ updateHeader, history }) {
     setFavorites(favoriteRecipes);
   }, []);
 
+  function disfavor(id) {
+    const newFavorites = favorites.filter((recipe) => recipe.id !== id);
+    localStorage
+      .setItem('favoriteRecipes', JSON.stringify([...newFavorites]));
+    setFavorites(newFavorites);
+  }
+
   function copyURL(typeRecipe, idRecipe) {
     const time = 2000;
     navigator.clipboard.writeText(`http://localhost:3000/${typeRecipe}s/${idRecipe}`);
@@ -96,6 +103,7 @@ function FavoriteRecipes({ updateHeader, history }) {
               </button>
               <button
                 type="button"
+                onClick={ () => disfavor(recipes.id) }
               >
                 <img
                   data-testid={ `${index}-horizontal-favorite-btn` }
