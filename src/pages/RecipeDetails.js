@@ -46,7 +46,7 @@ function RecipeDetails({ match, history }) {
     }
   }
 
-  const isFavorite = (path, ID) => {
+  const isFavorite = (ID) => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes) {
       favoriteRecipes.forEach((recipe) => {
@@ -62,7 +62,7 @@ function RecipeDetails({ match, history }) {
     const { params: { id }, path } = match;
     checkComplet(id);
     checkProgress(id, path);
-    isFavorite(path, id);
+    isFavorite(id);
   }, []);
 
   function copyURL() {
@@ -75,7 +75,7 @@ function RecipeDetails({ match, history }) {
   }
   // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
   const saveFavorite = () => {
-    const { path } = match;
+    const { params: { id }, path } = match;
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const recipeDetail = JSON.parse(localStorage.getItem('recipeDatail'));
     const setStorage = {
@@ -89,9 +89,16 @@ function RecipeDetails({ match, history }) {
         ? recipeDetail.strMealThumb : recipeDetail.strDrinkThumb,
     };
     if (favoriteRecipes) {
-      localStorage
-        .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
-      setitsFavoriteRecipe(true);
+      if (itsFavoriteRecipe) {
+        const newfavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
+        setitsFavoriteRecipe(false);
+      } else {
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+        setitsFavoriteRecipe(true);
+      }
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([setStorage]));
       setitsFavoriteRecipe(true);
