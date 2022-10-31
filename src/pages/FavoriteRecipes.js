@@ -19,6 +19,9 @@ function FavoriteRecipes({ updateHeader, history }) {
   return (
     <div>
       <Header history={ history } />
+      {
+        console.log(favorites)
+      }
       <button
         type="button"
         data-testid="filter-by-all-btn"
@@ -41,22 +44,39 @@ function FavoriteRecipes({ updateHeader, history }) {
         {
           favorites.map((recipes, index) => (
             <div key={ `${recipes}${index}` }>
-              <img data-testid={ `${index}-horizontal-image` } alt="recipe-img" />
-              <h3 data-testid={ `${index}-horizontal-top-text` }>Category:</h3>
-              <h5 data-testid={ `${index}-horizontal-name` }>Name:</h5>
-              {/*               <span data-testid={ `${index}-horizontal-done-date` }>Date:</span>
-              <span data-testid={ `${index}-horizontal-tag` }>Tags:</span> */}
+              <img
+                src={ recipes.image }
+                data-testid={ `${index}-horizontal-image` }
+                alt="recipe-img"
+                width="100px"
+              />
+              <h5 data-testid={ `${index}-horizontal-name` }>
+                {
+                  `Name: ${recipes.name}`
+                }
+                <h3 data-testid={ `${index}-horizontal-top-text` }>
+                  {
+                    `${recipes.nationality} - ${recipes.category}`
+                  }
+                </h3>
+              </h5>
               <button
                 type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
               >
-                <img src={ shareIcon } alt="share" />
+                <img
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  src={ shareIcon }
+                  alt="share"
+                />
               </button>
               <button
                 type="button"
-                data-testid={ `${index}-horizontal-favorite-btn` }
               >
-                <img src={ blackHeartIcon } alt="favorite" />
+                <img
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                  src={ blackHeartIcon }
+                  alt="favorite"
+                />
               </button>
             </div>
           ))
@@ -73,7 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 FavoriteRecipes.propTypes = {
   updateHeader: PropTypes.func.isRequired,
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape().isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(FavoriteRecipes);
