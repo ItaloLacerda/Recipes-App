@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import { searchRecipeDetails } from '../API/fetchAPI';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function arrayIngredients(recipe) {
   if (!recipe) {
@@ -31,6 +34,27 @@ function RecipeInProgress({ match, history }) {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
+
+  const isFavorite = (ID) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteRecipes) {
+      favoriteRecipes.forEach((recipe) => {
+        console.log(recipe);
+        if (recipe.id === ID) {
+          setitsFavoriteRecipe(true);
+        }
+      });
+    }
+  };
+
+  const shareLink = () => {
+    setLinkCopied(true);
+    copy(window.location.href.replace('/in-progress', ''));
+  };
+
   const ingredientMark = (ingredient) => {
     const content = document.querySelector(`#${ingredient}`);
     content.classList.add('riscado');
@@ -43,17 +67,19 @@ function RecipeInProgress({ match, history }) {
   const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
 
   const redirect = () => {
+    const { path } = match;
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
     doneRecipes.push({
-      alcoholicOrNot: productDetails.strAlcoholic,
+      alcoholicOrNot: path.includes('meals') ? '' : productDetails.strAlcoholic,
       category: productDetails.strCategory,
       doneDate: new Date().toISOString(),
-      id: productDetails.idDrink,
-      image: productDetails.strDrinkThumb,
-      name: productDetails.strDrink,
-      nationality: '',
+      id: path.includes('meals') ? productDetails.idMeal : productDetails.idDrink,
+      image: path.includes('meals')
+        ? productDetails.strMealThumb : productDetails.strDrinkThumb,
+      name: path.includes('meals') ? productDetails.strMeal : productDetails.strDrink,
+      nationality: path.includes('meals') ? productDetails.strArea : '',
       tags: productDetails.strTags ? productDetails.strTags.split(',') : [],
-      type: 'drink',
+      type: path.includes('meals') ? 'meal' : 'drink',
     });
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
     history.push('/done-recipes');
@@ -68,8 +94,42 @@ function RecipeInProgress({ match, history }) {
     setProductDetails(details);
   }
 
+  const saveFavorite = () => {
+    const { params: { id_da_receita }, path } = match;
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const setStorage = {
+      id: path.includes('meals') ? productDetails.idMeal : productDetails.idDrink,
+      type: path.includes('meals') ? 'meal' : 'drink',
+      nationality: path.includes('meals') ? productDetails.strArea : '',
+      category: productDetails.strCategory,
+      alcoholicOrNot: path.includes('meals') ? '' : productDetails.strAlcoholic,
+      name: path.includes('meals') ? productDetails.strMeal : productDetails.strDrink,
+      image: path.includes('meals')
+        ? productDetails.strMealThumb : productDetails.strDrinkThumb,
+    };
+    if (favoriteRecipes) {
+      if (itsFavoriteRecipe) {
+        const newfavoriteRecipes = favoriteRecipes.filter(
+          (recipe) => recipe.id !== id_da_receita);
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
+        setitsFavoriteRecipe(false);
+      } else {
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+        setitsFavoriteRecipe(true);
+      }
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([setStorage]));
+      setitsFavoriteRecipe(true);
+    }
+  };
+
   useEffect(() => {
+    const { params: { id_da_receita } } = match;
+
     fetchFirstDetails();
+    isFavorite(id_da_receita);
   }, []);
 
   return (
@@ -81,9 +141,39 @@ function RecipeInProgress({ match, history }) {
       />
       <h1 data-testid="recipe-title">{productDetails.strMeal}</h1>
 
-      <button type="button" data-testid="share-btn">Compartilhar</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ shareLink }
+      >
+        Compartilhar
 
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      </button>
+      { linkCopied && (<span>Link copied!</span>)}
+
+      <button
+        type="button"
+        onClick={ saveFavorite }
+      >
+        {
+          itsFavoriteRecipe ? (
+            <img
+              type="image/svg+xml"
+              data-testid="favorite-btn"
+              alt="whiteHeart Icon"
+              src={ blackHeartIcon }
+            />
+          ) : (
+            <img
+              type="image/svg+xml"
+              data-testid="favorite-btn"
+              alt="blackHeart Icon"
+              src={ whiteHeartIcon }
+            />
+          )
+        }
+
+      </button>
 
       <h4 data-testid="recipe-category">{ productDetails.strCategory }</h4>
 
@@ -101,7 +191,7 @@ function RecipeInProgress({ match, history }) {
           >
             <input
               type="checkbox"
-              onChangeCapture={ () => ingredientMark(`id${index}-ingredient-step`) }
+              onChange={ () => ingredientMark(`id${index}-ingredient-step`) }
               checked={ marked[`id${index}-ingredient-step`] }
             />
             {`${element.name} ${element.medida}`}
@@ -133,6 +223,7 @@ RecipeInProgress.propTypes = {
       id_da_receita: PropTypes.string,
     }),
     url: PropTypes.string,
+    path: PropTypes.string,
   }).isRequired,
 };
 
