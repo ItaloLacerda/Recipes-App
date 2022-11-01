@@ -88,14 +88,14 @@ function RecipeInProgress({ match, history }) {
   async function fetchFirstDetails() {
     const { params: id, url } = match;
     const details = await searchRecipeDetails(
-      { id: id.id_da_receita },
+      { id: id.id },
       url.replace('/in-progress', ''),
     );
     setProductDetails(details);
   }
 
   const saveFavorite = () => {
-    const { params: { id_da_receita }, path } = match;
+    const { params: { id }, path } = match;
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const setStorage = {
       id: path.includes('meals') ? productDetails.idMeal : productDetails.idDrink,
@@ -110,7 +110,8 @@ function RecipeInProgress({ match, history }) {
     if (favoriteRecipes) {
       if (itsFavoriteRecipe) {
         const newfavoriteRecipes = favoriteRecipes.filter(
-          (recipe) => recipe.id !== id_da_receita);
+          (recipe) => recipe.id !== id,
+        );
         localStorage
           .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
         setitsFavoriteRecipe(false);
@@ -126,10 +127,10 @@ function RecipeInProgress({ match, history }) {
   };
 
   useEffect(() => {
-    const { params: { id_da_receita } } = match;
+    const { params: { id } } = match;
 
     fetchFirstDetails();
-    isFavorite(id_da_receita);
+    isFavorite(id);
   }, []);
 
   return (
@@ -220,7 +221,7 @@ RecipeInProgress.propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id_da_receita: PropTypes.string,
+      id: PropTypes.string,
     }),
     url: PropTypes.string,
     path: PropTypes.string,

@@ -20,12 +20,12 @@ function App() {
       <Route exact path="/drinks/:id" component={ RecipeDetails } />
       <Route
         exact
-        path="/meals/:id_da_receita/in-progress"
+        path="/meals/:id/in-progress"
         component={ RecipeInProgress }
       />
       <Route
         exact
-        path="/drinks/:id_da_receita/in-progress"
+        path="/drinks/:id/in-progress"
         component={ RecipeInProgress }
       />
       <Route exact path="/profile" component={ Profile } />
