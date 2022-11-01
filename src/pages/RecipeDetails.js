@@ -19,10 +19,6 @@ function RecipeDetails({ match, history }) {
 
   function checkComplet(id) {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-<<<<<<< HEAD
-    console.log(doneRecipes);
-=======
->>>>>>> main-group-22
     if (doneRecipes) {
       doneRecipes.forEach((recipe) => {
         if (recipe.id === id) {
@@ -39,7 +35,9 @@ function RecipeDetails({ match, history }) {
     } else {
       currentPath = 'drinks';
     }
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const inProgressRecipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes'),
+    );
     if (inProgressRecipes) {
       const recipesId = Object.keys(inProgressRecipes[currentPath]);
       recipesId.forEach((recipe) => {
@@ -63,7 +61,10 @@ function RecipeDetails({ match, history }) {
   };
 
   useEffect(() => {
-    const { params: { id }, path } = match;
+    const {
+      params: { id },
+      path,
+    } = match;
     checkComplet(id);
     checkProgress(id, path);
     isFavorite(id);
@@ -79,7 +80,10 @@ function RecipeDetails({ match, history }) {
   }
   // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
   const saveFavorite = () => {
-    const { params: { id }, path } = match;
+    const {
+      params: { id },
+      path,
+    } = match;
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const recipeDetail = JSON.parse(localStorage.getItem('recipeDatail'));
     const setStorage = {
@@ -88,19 +92,28 @@ function RecipeDetails({ match, history }) {
       nationality: path.includes('meals') ? recipeDetail.strArea : '',
       category: recipeDetail.strCategory,
       alcoholicOrNot: path.includes('meals') ? '' : recipeDetail.strAlcoholic,
-      name: path.includes('meals') ? recipeDetail.strMeal : recipeDetail.strDrink,
+      name: path.includes('meals')
+        ? recipeDetail.strMeal
+        : recipeDetail.strDrink,
       image: path.includes('meals')
-        ? recipeDetail.strMealThumb : recipeDetail.strDrinkThumb,
+        ? recipeDetail.strMealThumb
+        : recipeDetail.strDrinkThumb,
     };
     if (favoriteRecipes) {
       if (itsFavoriteRecipe) {
-        const newfavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
-        localStorage
-          .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
+        const newfavoriteRecipes = favoriteRecipes.filter(
+          (recipe) => recipe.id !== id,
+        );
+        localStorage.setItem(
+          'favoriteRecipes',
+          JSON.stringify([...newfavoriteRecipes]),
+        );
         setitsFavoriteRecipe(false);
       } else {
-        localStorage
-          .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+        localStorage.setItem(
+          'favoriteRecipes',
+          JSON.stringify([...favoriteRecipes, setStorage]),
+        );
         setitsFavoriteRecipe(true);
       }
     } else {
@@ -111,59 +124,48 @@ function RecipeDetails({ match, history }) {
 
   return (
     <>
-      {
-        match.url.includes('/drinks')
-          ? <DrinkDetails match={ match } /> : <MealsDetails match={ match } />
-      }
-      {
-        renderLinkCopied && <p>Link copied!</p>
-      }
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ copyURL }
-      >
+      {match.url.includes('/drinks') ? (
+        <DrinkDetails match={ match } />
+      ) : (
+        <MealsDetails match={ match } />
+      )}
+      {renderLinkCopied && <p>Link copied!</p>}
+      <button type="button" data-testid="share-btn" onClick={ copyURL }>
         share
       </button>
-      <button
-        type="button"
-        onClick={ saveFavorite }
-      >
-        {
-          itsFavoriteRecipe ? (
-            <img
-              type="image/svg+xml"
-              data-testid="favorite-btn"
-              alt="whiteHeart Icon"
-              src={ blackHeartIcon }
-            />
-          ) : (
-            <img
-              type="image/svg+xml"
-              data-testid="favorite-btn"
-              alt="blackHeart Icon"
-              src={ whiteHeartIcon }
-            />
-          )
-        }
+      <button type="button" onClick={ saveFavorite }>
+        {itsFavoriteRecipe ? (
+          <img
+            type="image/svg+xml"
+            data-testid="favorite-btn"
+            alt="whiteHeart Icon"
+            src={ blackHeartIcon }
+          />
+        ) : (
+          <img
+            type="image/svg+xml"
+            data-testid="favorite-btn"
+            alt="blackHeart Icon"
+            src={ whiteHeartIcon }
+          />
+        )}
       </button>
-      {
-        match.url.includes('/meals')
-          ? <CarouselMeal match={ match } /> : <CarouselDrink match={ match } />
-      }
+      {match.url.includes('/meals') ? (
+        <CarouselMeal match={ match } />
+      ) : (
+        <CarouselDrink match={ match } />
+      )}
 
-      {
-        renderButton && (
-          <button
-            type="button"
-            style={ { position: 'fixed', bottom: '0px' } }
-            data-testid="start-recipe-btn"
-            onClick={ handleClick }
-          >
-            {buttonName}
-          </button>
-        )
-      }
+      {renderButton && (
+        <button
+          type="button"
+          style={ { position: 'fixed', bottom: '0px' } }
+          data-testid="start-recipe-btn"
+          onClick={ handleClick }
+        >
+          {buttonName}
+        </button>
+      )}
     </>
   );
 }
