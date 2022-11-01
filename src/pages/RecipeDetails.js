@@ -19,7 +19,10 @@ function RecipeDetails({ match, history }) {
 
   function checkComplet(id) {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+<<<<<<< HEAD
     console.log(doneRecipes);
+=======
+>>>>>>> main-group-22
     if (doneRecipes) {
       doneRecipes.forEach((recipe) => {
         if (recipe.id === id) {

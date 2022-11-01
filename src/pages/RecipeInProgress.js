@@ -5,6 +5,8 @@ import { searchRecipeDetails } from '../API/fetchAPI';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
+const inProgressRecipesEmpty = { drinks: {}, meals: {} };
+
 function arrayIngredients(recipe) {
   if (!recipe) {
     return [];
@@ -37,6 +39,10 @@ function RecipeInProgress({ match, history }) {
   const [linkCopied, setLinkCopied] = useState(false);
   const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
 
+  const idRecipe = match.path.includes('meals')
+    ? productDetails.idMeal : productDetails.idDrink;
+  const typeRecipe = match.path.includes('meals') ? 'meals' : 'drinks';
+
   const isFavorite = (ID) => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes) {
@@ -55,15 +61,28 @@ function RecipeInProgress({ match, history }) {
   };
 
   const ingredientMark = (ingredient) => {
-    const content = document.querySelector(`#${ingredient}`);
-    content.classList.add('riscado');
-    const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
-    marked[ingredient] = true;
+    const marked = JSON.parse(localStorage.getItem('inProgressRecipes'))
+      || inProgressRecipesEmpty;
+
+    if (!marked[typeRecipe][idRecipe]) {
+      marked[typeRecipe][idRecipe] = [];
+    }
+
+    if (marked[typeRecipe][idRecipe].includes(ingredient)) {
+      marked[typeRecipe][idRecipe] = marked[typeRecipe][idRecipe].filter(
+        (element) => element !== ingredient,
+      );
+    } else {
+      marked[typeRecipe][idRecipe].push(ingredient);
+    }
+
     localStorage.setItem('inProgressRecipes', JSON.stringify(marked));
     forceUpdate();
   };
 
-  const marked = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+  let marked = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || inProgressRecipesEmpty;
+  marked = marked[typeRecipe][idRecipe] || [];
 
   const redirect = () => {
     const { path } = match;
@@ -184,15 +203,15 @@ function RecipeInProgress({ match, history }) {
         { ingredients.map((element, index) => (
           <label
             id={ `id${index}-ingredient-step` }
-            className={ marked[`id${index}-ingredient-step`] ? 'riscado' : '' }
+            className={ marked.includes(element.name) ? 'riscado' : '' }
             htmlFor="recipe"
             data-testid={ `${index}-ingredient-step` }
             key={ index }
           >
             <input
               type="checkbox"
-              onChange={ () => ingredientMark(`id${index}-ingredient-step`) }
-              checked={ marked[`id${index}-ingredient-step`] }
+              onChange={ () => ingredientMark(element.name) }
+              checked={ marked.includes(element.name) }
             />
             {`${element.name} ${element.medida}`}
           </label>
