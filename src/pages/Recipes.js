@@ -26,7 +26,8 @@ function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
     if (pathname === '/drinks') {
       pageTitle = 'Drinks';
       setShow(false);
-    } else if (pathname === '/meals') {
+    }
+    if (pathname === '/meals') {
       pageTitle = 'Meals';
       setShow(true);
     }

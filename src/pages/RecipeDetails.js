@@ -5,6 +5,8 @@ import DrinkDetails from '../components/DrinkDetails';
 import MealsDetails from '../components/MealsDetails';
 import CarouselMeal from '../components/CarouselMeal';
 import CarouselDrink from '../components/CarouselDrink';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails({ match, history }) {
   function handleClick() {
@@ -13,6 +15,7 @@ function RecipeDetails({ match, history }) {
   const [buttonName, setButtonName] = useState('Start Recipe');
   const [renderButton, setRenderButton] = useState(true);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
 
   function checkComplet(id) {
     const doneRecipes = localStorage.getItem('doneRecipes');
@@ -43,11 +46,23 @@ function RecipeDetails({ match, history }) {
     }
   }
 
+  const isFavorite = (ID) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteRecipes) {
+      favoriteRecipes.forEach((recipe) => {
+        console.log(recipe);
+        if (recipe.id === ID) {
+          setitsFavoriteRecipe(true);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     const { params: { id }, path } = match;
-    // console.log(match);
     checkComplet(id);
     checkProgress(id, path);
+    isFavorite(id);
   }, []);
 
   function copyURL() {
@@ -58,6 +73,37 @@ function RecipeDetails({ match, history }) {
       setRenderLinkCopied(false);
     }, time);
   }
+  // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
+  const saveFavorite = () => {
+    const { params: { id }, path } = match;
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const recipeDetail = JSON.parse(localStorage.getItem('recipeDatail'));
+    const setStorage = {
+      id: path.includes('meals') ? recipeDetail.idMeal : recipeDetail.idDrink,
+      type: path.includes('meals') ? 'meal' : 'drink',
+      nationality: path.includes('meals') ? recipeDetail.strArea : '',
+      category: recipeDetail.strCategory,
+      alcoholicOrNot: path.includes('meals') ? '' : recipeDetail.strAlcoholic,
+      name: path.includes('meals') ? recipeDetail.strMeal : recipeDetail.strDrink,
+      image: path.includes('meals')
+        ? recipeDetail.strMealThumb : recipeDetail.strDrinkThumb,
+    };
+    if (favoriteRecipes) {
+      if (itsFavoriteRecipe) {
+        const newfavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
+        setitsFavoriteRecipe(false);
+      } else {
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+        setitsFavoriteRecipe(true);
+      }
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([setStorage]));
+      setitsFavoriteRecipe(true);
+    }
+  };
 
   return (
     <>
@@ -77,9 +123,25 @@ function RecipeDetails({ match, history }) {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
+        onClick={ saveFavorite }
       >
-        Favorite
+        {
+          itsFavoriteRecipe ? (
+            <img
+              type="image/svg+xml"
+              data-testid="favorite-btn"
+              alt="whiteHeart Icon"
+              src={ blackHeartIcon }
+            />
+          ) : (
+            <img
+              type="image/svg+xml"
+              data-testid="favorite-btn"
+              alt="blackHeart Icon"
+              src={ whiteHeartIcon }
+            />
+          )
+        }
       </button>
       {
         match.url.includes('/meals')

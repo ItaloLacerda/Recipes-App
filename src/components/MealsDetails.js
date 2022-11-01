@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { searchRecipeDetails } from '../API/fetchAPI';
 
-export default function MealsDetails({ match }) {
+function MealsDetails({ match }) {
   const deleteStringFromVideoLink = 32;
 
   const [productDetails, setProductDetails] = useState({});
@@ -32,6 +32,7 @@ export default function MealsDetails({ match }) {
     const { params: id, url } = match;
     const details = await searchRecipeDetails(id, url);
     setProductDetails(details);
+    localStorage.setItem('recipeDatail', JSON.stringify(details));
     filterIngredients(details);
   };
 
@@ -87,3 +88,5 @@ MealsDetails.propTypes = {
     url: PropTypes.string,
   }).isRequired,
 };
+
+export default MealsDetails;
