@@ -37,7 +37,6 @@ function RecipeInProgress({ match, history }) {
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const [linkCopied, setLinkCopied] = useState(false);
-
   const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
 
   const idRecipe = match.path.includes('meals')
