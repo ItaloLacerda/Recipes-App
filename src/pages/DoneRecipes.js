@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Header from '../components/Header';
 import { renderHeader } from '../redux/actions';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes({ updateHeader, history }) {
   const [doneRecipes, setDoneRecipes] = useState([]);
@@ -88,6 +90,19 @@ function DoneRecipes({ updateHeader, history }) {
                 </h3>
               </div>
               <p data-testid={ `${index}-horizontal-done-date` }>{ recipes.doneDate }</p>
+              {
+                recipes.type === 'meal' && (
+                  <div>
+                    <p data-testid={ `${index}-Pasta-horizontal-tag` }>
+                      {recipes.tags[0]}
+                    </p>
+                    <p data-testid={ `${index}-Curry-horizontal-tag` }>
+                      {recipes.tags[1]}
+                    </p>
+                  </div>
+
+                )
+              }
               {
                 renderLinkCopied && <p>Link copied!</p>
               }

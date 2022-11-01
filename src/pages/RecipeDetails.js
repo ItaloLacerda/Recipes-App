@@ -18,7 +18,8 @@ function RecipeDetails({ match, history }) {
   const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
 
   function checkComplet(id) {
-    const doneRecipes = localStorage.getItem('doneRecipes');
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    console.log(doneRecipes);
     if (doneRecipes) {
       doneRecipes.forEach((recipe) => {
         if (recipe.id === id) {
