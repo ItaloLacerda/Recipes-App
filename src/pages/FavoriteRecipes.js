@@ -16,7 +16,9 @@ function FavoriteRecipes({ updateHeader, history }) {
   useEffect(() => {
     updateHeader('Favorite Recipes', true, false);
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setFavorites(favoriteRecipes);
+    if (favoriteRecipes !== null) {
+      setFavorites(favoriteRecipes);
+    }
   }, []);
 
   function disfavor(id) {
@@ -58,9 +60,7 @@ function FavoriteRecipes({ updateHeader, history }) {
   return (
     <div>
       <Header history={ history } />
-      {
-        console.log(favorites)
-      }
+
       <button
         type="button"
         name="all"

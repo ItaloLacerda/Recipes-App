@@ -1,3 +1,7 @@
+.riscado {
+  text-decoration: line-through solid black;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
