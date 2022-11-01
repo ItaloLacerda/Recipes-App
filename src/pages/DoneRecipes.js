@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { renderHeader } from '../redux/actions';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes({ updateHeader, history }) {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  const [itsFavoriteRecipe, setitsFavoriteRecipe] = useState(false);
 
   useEffect(() => {
     updateHeader('Done Recipes', true, false);
@@ -19,6 +21,57 @@ function DoneRecipes({ updateHeader, history }) {
       setDoneRecipes(doneRecipe);
     }
   }, []);
+
+  const saveFavorite = ({ id, type, nationality, category,
+    alcoholicOrNot, name, image }) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const setStorage = {
+      id,
+      type,
+      nationality,
+      category,
+      alcoholicOrNot,
+      name,
+      image,
+    };
+    if (favoriteRecipes) {
+      if (itsFavoriteRecipe) {
+        const newfavoriteRecipes = favoriteRecipes.filter(
+          (recipe) => recipe.id !== id,
+        );
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...newfavoriteRecipes]));
+        setitsFavoriteRecipe(false);
+      } else {
+        localStorage
+          .setItem('favoriteRecipes', JSON.stringify([...favoriteRecipes, setStorage]));
+        setitsFavoriteRecipe(true);
+      }
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([setStorage]));
+      setitsFavoriteRecipe(true);
+    }
+  };
+
+  function filterRecipes({ target }) {
+    const doneRecipe = JSON.parse(localStorage.getItem('doneRecipes'));
+
+    if (target.name === 'meal') {
+      const newDoneRecipes = doneRecipe
+        .filter((recipe) => recipe.type === target.name);
+      setDoneRecipes(newDoneRecipes);
+    }
+
+    if (target.name === 'drink') {
+      const newFavoriteDrink = doneRecipe
+        .filter((recipe) => recipe.type === target.name);
+      setDoneRecipes(newFavoriteDrink);
+    }
+
+    if (target.name === 'all') {
+      setDoneRecipes(doneRecipe);
+    }
+  }
 
   function copyURL(typeRecipe, idRecipe) {
     const time = 2000;
@@ -36,7 +89,7 @@ function DoneRecipes({ updateHeader, history }) {
         type="button"
         name="all"
         data-testid="filter-by-all-btn"
-        // onClick={ filterRecipes }
+        onClick={ filterRecipes }
       >
         All
       </button>
@@ -44,7 +97,7 @@ function DoneRecipes({ updateHeader, history }) {
         type="button"
         name="meal"
         data-testid="filter-by-meal-btn"
-        // onClick={ filterRecipes }
+        onClick={ filterRecipes }
       >
         Meals
       </button>
@@ -52,7 +105,7 @@ function DoneRecipes({ updateHeader, history }) {
         type="button"
         name="drink"
         data-testid="filter-by-drink-btn"
-        // onClick={ filterRecipes }
+        onClick={ filterRecipes }
       >
         Drinks
       </button>
@@ -118,13 +171,25 @@ function DoneRecipes({ updateHeader, history }) {
               </button>
               <button
                 type="button"
-                // onClick={ () => disfavor(recipes.id) }
+                onClick={ () => saveFavorite(recipes) }
               >
-                <img
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  src={ blackHeartIcon }
-                  alt="favorite"
-                />
+                {
+                  itsFavoriteRecipe ? (
+                    <img
+                      type="image/svg+xml"
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      alt="whiteHeart Icon"
+                      src={ blackHeartIcon }
+                    />
+                  ) : (
+                    <img
+                      type="image/svg+xml"
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      alt="blackHeart Icon"
+                      src={ whiteHeartIcon }
+                    />
+                  )
+                }
               </button>
             </div>
           ))
