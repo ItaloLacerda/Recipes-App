@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../css/login.css';
-import logo from '../images/imagens/comida.png';
+import logo from '../images/icones/comida.png';
 
 const num = 6;
 

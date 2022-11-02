@@ -1,0 +1,15 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+.footer {
+  background: #1B463C;
+}
+
+.BTN_Footer {
+  background: none;
+  border: none;
+}
+
+.bi-cup-straw {
+  font-size: 40px;
+  color: #FCC436;
+}
