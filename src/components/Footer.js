@@ -19,14 +19,9 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <div className="footer">
         <footer
+          className="footer"
           data-testid="footer"
-          style={ {
-            bottom: '0',
-            left: '0',
-            position: 'fixed',
-          } }
         >
           <button
             className="BTN_Footer"
@@ -50,8 +45,6 @@ class Footer extends React.Component {
             />
           </button>
         </footer>
-
-      </div>
     );
   }
 }
