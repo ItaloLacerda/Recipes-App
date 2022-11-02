@@ -96,7 +96,7 @@ function TagsForFilters({ history, setRecipes }) {
             onClick={ handelClick }
           >
             {/* {e.strCategory} */}
-            <img src={icones[index]} alt={ e.strCategory } />
+            <img src={icones[index]} alt={ e.strCategory } name={ e.strCategory } />
           </button>))
       }
       {
@@ -108,7 +108,7 @@ function TagsForFilters({ history, setRecipes }) {
             data-testid="All-category-filter"
             onClick={ handelClick }
           >
-            <img src={All} />
+            <img src={All} name="buttonAll" />
           </button>
         )
       }
