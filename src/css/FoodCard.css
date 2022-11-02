@@ -1,0 +1,17 @@
+.food_card {
+  border-radius: 5px;
+  background-color: #F4F3E8;
+  padding-bottom: 3px;
+  text-align: center;
+}
+
+.img_card {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.text_card {
+  color: black;
+  margin-top: 8px;
+}

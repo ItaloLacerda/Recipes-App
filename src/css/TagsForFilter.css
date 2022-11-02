@@ -1,0 +1,12 @@
+.tagsFilter {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  padding-bottom: 10px;
+}
+
+.BTN_filter {
+  background: none;
+  border: none;
+}

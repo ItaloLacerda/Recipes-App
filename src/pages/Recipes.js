@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import TagsForFilters from '../components/TagsForFilter';
 import { fetchMealsAndDrinks } from '../API/fetchAPI';
 import Footer from '../components/Footer';
+import '../css/recipes.css';
 
 function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
   const LENGTH = 11;
@@ -37,12 +38,12 @@ function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
   }, []);
 
   return (
-    <>
+    <div>
       {/* {console.log(recipes)} */}
       <Header history={ history } />
       <TagsForFilters history={ history } />
-      <div>
         <h3>RECIPES</h3>
+      <div className="recipes_container">
         {show && (
           recipes.map(({ strMealThumb, strMeal, idMeal }, index) => (
             <Link to={ `/meals/${idMeal}` } key={ index }>
@@ -67,7 +68,7 @@ function Recipes({ show, recipes, setShow, history, updateHeader, setRecipe }) {
         )}
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

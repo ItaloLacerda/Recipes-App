@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../css/FoodCard.css';
 
 class FoodCard extends Component {
   render() {
     const { index, src, name } = this.props;
     return (
-      <div data-testid={ `${index}-recipe-card` }>
+      <div className="food_card" data-testid={ `${index}-recipe-card` }>
         <img
           data-testid={ `${index}-card-img` }
+          className="img_card"
           alt={ name }
           src={ src }
-          width="100"
-          height="100"
         />
-        <h5 data-testid={ `${index}-card-name` }>{ name }</h5>
+        <h5 className="text_card" data-testid={ `${index}-card-name` }>{ name }</h5>
       </div>
     );
   }
