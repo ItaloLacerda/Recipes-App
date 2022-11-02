@@ -1,0 +1,47 @@
+body {
+  background-color: #F1ECE0;
+}
+
+.form_login {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 500px;
+  gap: 10px;
+}
+
+.input_login {
+  width: 300px;
+  background: none;
+  border: solid 1px #1B463C;
+  border-radius: 30px;
+  padding: 10px;
+  color: #1B463C;
+
+}
+
+.input_login::-webkit-input-placeholder {
+  color: #1B463C;
+}
+
+.BTN_login {
+  width: 300px;
+  background: #1B463C;
+  border-radius: 30px;
+  padding: 10px;
+  color: #ffff;
+}
+
+.titulo {
+  padding-top: 40px;
+  padding-left: 30px;
+}
+
+.imagem {
+  width: 300px;
+  position: absolute;
+  right: 0px;
+  top: 10px;
+}

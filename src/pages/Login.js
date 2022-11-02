@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../css/login.css';
+import logo from '../images/imagens/comida.png';
 
 const num = 6;
 
@@ -35,32 +37,53 @@ class Login extends React.Component {
     const { email, password } = this.state;
 
     return (
-      <form>
-        <input
-          type="email"
-          data-testid="email-input"
-          name="email"
-          value={ email }
-          onChange={ this.handleChange }
-        />
+      <div>
+        <div className="titulo">
+          <h1>
+            Good things
 
-        <input
-          type="password"
-          data-testid="password-input"
-          name="password"
-          value={ password }
-          onChange={ this.handleChange }
-        />
-        <button
-          data-testid="login-submit-btn"
-          className="BTN_login"
-          type="submit"
-          disabled={ password.length <= num || !validateEmail(email) }
-          onClick={ this.handleSubmit }
-        >
-          Entrar
-        </button>
-      </form>
+          </h1>
+          <h1>
+            await.
+
+          </h1>
+          <img
+            className="imagem"
+            src={ logo }
+            alt={ logo }
+          />
+        </div>
+        <form className="form_login">
+          <input
+            placeholder="Email"
+            className="input_login"
+            type="email"
+            data-testid="email-input"
+            name="email"
+            value={ email }
+            onChange={ this.handleChange }
+          />
+
+          <input
+            placeholder="Password"
+            className="input_login"
+            type="password"
+            data-testid="password-input"
+            name="password"
+            value={ password }
+            onChange={ this.handleChange }
+          />
+          <button
+            data-testid="login-submit-btn"
+            className="BTN_login"
+            type="submit"
+            disabled={ password.length <= num || !validateEmail(email) }
+            onClick={ this.handleSubmit }
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
     );
   }
 }
