@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBarHeader from './SearchBar';
+import '../css/header.css';
 
 function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
   const [search, setSearch] = useState(false);
@@ -19,33 +18,23 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
     }
   };
   return (
-    <>
-      <h3 data-testid="page-title">{pageTitle}</h3>
+    <div className="header">
+      {/* <h3 data-testid="page-title">{pageTitle}</h3> */}
       {
         renderProfileIcon && (
-          <button type="button" name="profile-top-btn" onClick={ handelClick }>
-            <img
-              data-testid="profile-top-btn"
-              type="image/svg+xml"
-              alt="Profile Icon"
-              src={ profileIcon }
-            />
+          <button className="BTN_header" type="button" name="profile-top-btn" onClick={ handelClick }>
+            <i class="bi bi-person-circle" />
           </button>
         )
       }
       { renderSearchIcon && (
-        <button type="button" name="search-top-btn" onClick={ handelClick }>
-          <img
-            data-testid="search-top-btn"
-            type="image/svg+xml"
-            alt="Search Icon"
-            src={ searchIcon }
-          />
+        <button className="BTN_header" type="button" name="search-top-btn" onClick={ handelClick }>
+          <i class="bi bi-search" />
         </button>)}
       {search && (
         <SearchBarHeader history={ history } />
       )}
-    </>
+    </div>
   );
 }
 const mapStateToProps = ({ stateHeader }) => ({

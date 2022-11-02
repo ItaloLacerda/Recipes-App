@@ -1,0 +1,16 @@
+.BTN_header {
+  background: none;
+  border: none;
+}
+
+.header {
+  background: #1B463C;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.bi-person-circle, .bi-search {
+  font-size: 35px;
+  color: #FCC436;
+}
