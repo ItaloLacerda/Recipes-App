@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { renderHeader } from '../redux/actions';
-import DoneICON from '../images/icones/Group 10.png'
-import FavoriteICON from '../images/icones/Group 9.png'
-import LogoutICON from '../images/icones/Group 8.png'
+import DoneICON from '../images/icones/Group 10.png';
+import FavoriteICON from '../images/icones/Group 9.png';
+import LogoutICON from '../images/icones/Group 8.png';
 import '../css/profile.css';
 
 class Profile extends React.Component {
@@ -30,11 +30,11 @@ class Profile extends React.Component {
   }
 
   handleClick = ({ target }) => {
-    const { value } = target;
+    const { name } = target;
     const { history } = this.props;
-    if (value === 'Done Recipes') {
+    if (name === 'btnDone') {
       history.push('/done-recipes');
-    } else if (value === 'Favorite Recipes') {
+    } else if (name === 'btnFavorite') {
       history.push('/favorite-recipes');
     } else {
       localStorage.clear();
@@ -60,10 +60,14 @@ class Profile extends React.Component {
             value="Done Recipes"
             onClick={ this.handleClick }
           >
-            <img src={DoneICON} alt="Icon Done Recipes" name="btnDone" />
+            <img
+              src={ DoneICON }
+              alt="Icon Done Recipes"
+              name="btnDone"
+            />
             Done Recipes
           </button>
-          <hr width="290px"/>
+          <hr width="290px" />
           <button
             className="BTN_profile"
             data-testid="profile-favorite-btn"
@@ -72,10 +76,10 @@ class Profile extends React.Component {
             value="Favorite Recipes"
             onClick={ this.handleClick }
           >
-            <img src={FavoriteICON} alt="Icon Favorite" name="btnFavorite" />
+            <img src={ FavoriteICON } alt="Icon Favorite" name="btnFavorite" />
             Favorite Recipes
           </button>
-          <hr width="290px"/>
+          <hr width="290px" />
           <button
             className="BTN_profile"
             data-testid="profile-logout-btn"
@@ -84,7 +88,7 @@ class Profile extends React.Component {
             value="Logout"
             onClick={ this.handleClick }
           >
-            <img src={LogoutICON} alt="Icon Logout" name="btnLogout" />
+            <img src={ LogoutICON } alt="Icon Logout" name="btnLogout" />
             Logout
           </button>
         </div>
