@@ -1,0 +1,22 @@
+.profile_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15vh;
+  gap: 25px;
+}
+
+.BTN_profile {
+  background: none;
+  border: none;
+}
+
+.EMAIL_user {
+  font-weight: bolder;
+  font-size: large;
+  margin-bottom: 25px;
+}
+
+img {
+  margin-right: 8px;
+}
