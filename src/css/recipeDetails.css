@@ -1,0 +1,29 @@
+.container_recipe {
+ margin-bottom: 30px;
+}
+
+.BTN_share {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #FCC436;
+}
+
+.BTN_favorite {
+  background: none;
+  border: none;
+}
+
+.carrosel {
+  margin-top: 30px;
+}
+
+.BTN_start {
+  width: 200px;
+  background: #1B463C;
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+  color: #ffff;
+  left: 150px;
+}

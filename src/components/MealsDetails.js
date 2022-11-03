@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import '../css/meals.css';
 
 import { searchRecipeDetails } from '../API/fetchAPI';
 
@@ -41,16 +42,25 @@ function MealsDetails({ match }) {
   }, []);
 
   return (
-    <>
-      <h1>RecipeDetails</h1>
-      <h3 data-testid="recipe-title">{productDetails.strMeal}</h3>
-      <h4 data-testid="recipe-category">{ productDetails.strCategory }</h4>
+    <div className="container_meals">
       <img
         src={ productDetails.strMealThumb }
         alt={ productDetails.strMeal }
         data-testid="recipe-photo"
       />
-      <p data-testid="instructions">{productDetails.strInstructions}</p>
+      <h1>RecipeDetails</h1>
+      <h3 data-testid="recipe-title">{productDetails.strMeal}</h3>
+      <h4 data-testid="recipe-category">{ productDetails.strCategory }</h4>
+      <center>
+        <p
+          className="descrition"
+          data-testid="instructions"
+        >
+          {productDetails.strInstructions}
+
+        </p>
+
+      </center>
       {
         productDetails.strYoutube
       && <iframe
@@ -76,7 +86,7 @@ function MealsDetails({ match }) {
           </p>
         ))
       }
-    </>
+    </div>
   );
 }
 

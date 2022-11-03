@@ -5,8 +5,10 @@ import DrinkDetails from '../components/DrinkDetails';
 import MealsDetails from '../components/MealsDetails';
 import CarouselMeal from '../components/CarouselMeal';
 import CarouselDrink from '../components/CarouselDrink';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/icones/like.png';
+import blackHeartIcon from '../images/icones/Vector (1).png';
+import sharetIcon from '../images/icones/Vector2.png';
+import '../css/recipeDetails.css';
 
 function RecipeDetails({ match, history }) {
   function handleClick() {
@@ -123,17 +125,30 @@ function RecipeDetails({ match, history }) {
   };
 
   return (
-    <>
+    <div className="container_recipe">
       {match.url.includes('/drinks') ? (
         <DrinkDetails match={ match } />
       ) : (
         <MealsDetails match={ match } />
       )}
       {renderLinkCopied && <p>Link copied!</p>}
-      <button type="button" data-testid="share-btn" onClick={ copyURL }>
-        share
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ copyURL }
+        className="BTN_share"
+      >
+        <img
+          type="image/svg+xml"
+          alt="shareIcon"
+          src={ sharetIcon }
+        />
       </button>
-      <button type="button" onClick={ saveFavorite }>
+      <button
+        className="BTN_favorite"
+        type="button"
+        onClick={ saveFavorite }
+      >
         {itsFavoriteRecipe ? (
           <img
             type="image/svg+xml"
@@ -147,26 +162,30 @@ function RecipeDetails({ match, history }) {
             data-testid="favorite-btn"
             alt="blackHeart Icon"
             src={ whiteHeartIcon }
+
           />
         )}
       </button>
-      {match.url.includes('/meals') ? (
-        <CarouselMeal match={ match } />
-      ) : (
-        <CarouselDrink match={ match } />
-      )}
+      <div className="carrosel">
+        {match.url.includes('/meals') ? (
+          <CarouselMeal match={ match } />
+        ) : (
+          <CarouselDrink match={ match } />
+        )}
 
-      {renderButton && (
-        <button
-          type="button"
-          style={ { position: 'fixed', bottom: '0px' } }
-          data-testid="start-recipe-btn"
-          onClick={ handleClick }
-        >
-          {buttonName}
-        </button>
-      )}
-    </>
+        {renderButton && (
+          <button
+            className="BTN_start"
+            type="button"
+            style={ { position: 'fixed', bottom: '0px' } }
+            data-testid="start-recipe-btn"
+            onClick={ handleClick }
+          >
+            {buttonName}
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 

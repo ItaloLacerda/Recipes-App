@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import '../css/drink.css';
 
 import { searchRecipeDetails } from '../API/fetchAPI';
 
@@ -40,18 +41,30 @@ function DrinkDetails({ match }) {
   }, []);
 
   return (
-    <>
-      <h1>RecipeDetails</h1>
-      <h3 data-testid="recipe-title">
-        {productDetails.strDrink}
-      </h3>
-      <h4 data-testid="recipe-category">{ productDetails.strAlcoholic}</h4>
+    <div className="container_drink">
       <img
         src={ productDetails.strDrinkThumb }
         alt={ productDetails.strDrink }
         data-testid="recipe-photo"
       />
-      <p data-testid="instructions">{productDetails.strInstructions}</p>
+      <br />
+      <h1>Recipe Details</h1>
+      <br />
+      <h3 data-testid="recipe-title">
+        {productDetails.strDrink}
+      </h3>
+      <br />
+      <h4 data-testid="recipe-category">{ productDetails.strAlcoholic}</h4>
+      <center>
+        <p
+          className="descrition"
+          data-testid="instructions"
+        >
+          {productDetails.strInstructions}
+
+        </p>
+
+      </center>
       <h4>Ingredient List</h4>
       {
         ingredientList.map((ingredient, index) => (
@@ -63,7 +76,7 @@ function DrinkDetails({ match }) {
           </p>
         ))
       }
-    </>
+    </div>
   );
 }
 

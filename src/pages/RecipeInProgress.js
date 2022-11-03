@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import { searchRecipeDetails } from '../API/fetchAPI';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/icones/like.png';
+import blackHeartIcon from '../images/icones/Vector (1).png';
+import sharetIcon from '../images/icones/Vector2.png';
+import '../css/recipeInProgress.css';
 
 const inProgressRecipesEmpty = { drinks: {}, meals: {} };
 
@@ -152,7 +154,7 @@ function RecipeInProgress({ match, history }) {
   }, []);
 
   return (
-    <div>
+    <div className="container_progress">
       <img
         src={ productDetails.strMealThumb }
         alt={ productDetails.strMeal }
@@ -161,31 +163,33 @@ function RecipeInProgress({ match, history }) {
       <h1 data-testid="recipe-title">{productDetails.strMeal}</h1>
 
       <button
+        className="BTN_share"
         type="button"
         data-testid="share-btn"
         onClick={ shareLink }
       >
-        Compartilhar
+        <img
+          type="image/svg+xml"
+          alt="shareIcon"
+          src={ sharetIcon }
+        />
 
       </button>
       { linkCopied && (<span>Link copied!</span>)}
 
       <button
+        className="BTN_favorite"
         type="button"
         onClick={ saveFavorite }
       >
         {
           itsFavoriteRecipe ? (
             <img
-              type="image/svg+xml"
-              data-testid="favorite-btn"
               alt="whiteHeart Icon"
               src={ blackHeartIcon }
             />
           ) : (
             <img
-              type="image/svg+xml"
-              data-testid="favorite-btn"
               alt="blackHeart Icon"
               src={ whiteHeartIcon }
             />
@@ -193,13 +197,9 @@ function RecipeInProgress({ match, history }) {
         }
 
       </button>
-
       <h4 data-testid="recipe-category">{ productDetails.strCategory }</h4>
-
       <p data-testid="instructions">{productDetails.strInstructions}</p>
-
-      <form>
-
+      <form className="form_checbox">
         { ingredients.map((element, index) => (
           <label
             id={ `id${index}-ingredient-step` }
@@ -209,17 +209,22 @@ function RecipeInProgress({ match, history }) {
             key={ index }
           >
             <input
+              className="input_checkbox"
               type="checkbox"
               onChange={ () => ingredientMark(element.name) }
               checked={ marked.includes(element.name) }
             />
-            {`${element.name} ${element.medida}`}
-          </label>
+            <span
+              className="span_checbox"
+            >
+              {`${element.name} ${element.medida}`}
 
+            </span>
+          </label>
         ))}
       </form>
-
       <button
+        className="BTN_finalizar"
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ Object.keys(marked).length !== ingredients.length }
@@ -243,7 +248,6 @@ RecipeInProgress.propTypes = {
     }),
     url: PropTypes.string,
     path: PropTypes.string,
-  }).isRequired,
-};
+  }).isRequired };
 
 export default RecipeInProgress;
