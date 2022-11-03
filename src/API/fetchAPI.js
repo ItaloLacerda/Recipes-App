@@ -65,7 +65,6 @@ export const seekRecommendations = async (revenueId, pathname) => {
   const reponseAPI = await fetch(URL);
   const data = await reponseAPI.json();
   const filterData = data[path].filter((_, index) => index <= LENGTH);
-  console.log(filterData);
   return filterData;
 };
 

@@ -26,7 +26,6 @@ function TagsForFilters({ history, setRecipes }) {
 
   const fetch = async () => {
     const response = await fetchByCategory(type);
-    console.log(response);
     setFetchCategory(response);
   };
 
