@@ -10,6 +10,41 @@ const doneRecipes = [
     tags: [],
     type: 'meal',
   },
+  {
+    alcoholicOrNot: '',
+    category: 'Side',
+    doneDate: '2022-11-12T15:10:35.703Z',
+    id: '52977',
+    image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
+    name: 'Corba',
+    nationality: 'Turkish',
+    tags: [
+      'Soup',
+    ],
+    type: 'meal',
+  },
+  {
+    alcoholicOrNot: 'Alcoholic',
+    category: 'Cocktail',
+    doneDate: '2022-11-12T15:11:11.394Z',
+    id: '17222',
+    image: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
+    name: 'A1',
+    nationality: '',
+    tags: [],
+    type: 'drink',
+  },
+  {
+    alcoholicOrNot: 'Optional alcohol',
+    category: 'Ordinary Drink',
+    doneDate: '2022-11-12T16:24:52.409Z',
+    id: '15997',
+    image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
+    name: 'GG',
+    nationality: '',
+    tags: [],
+    type: 'drink',
+  },
 ];
 
 export default doneRecipes;
