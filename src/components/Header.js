@@ -7,7 +7,7 @@ import '../css/header.css';
 function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
   const [search, setSearch] = useState(false);
   const handelClick = ({ target }) => {
-    console.log(target.className)
+    console.log(target.className);
     switch (target.className) {
     case 'bi bi-person-circle':
       history.push('/profile');
@@ -21,19 +21,30 @@ function Header({ pageTitle, renderProfileIcon, renderSearchIcon, history }) {
     <div className="header">
       {
         renderProfileIcon && (
-          <button className="BTN_header" type="button" name="profile-top-btn" onClick={ handelClick }>
+          <button
+            className="BTN_header"
+            type="button"
+            name="profile-top-btn"
+            data-testid="profile-top-btn"
+            onClick={ handelClick }
+          >
             <i className="bi bi-search" />
           </button>
         )
       }
       <h3 className="text_header" data-testid="page-title">{pageTitle}</h3>
       { renderSearchIcon && (
-        <button className="BTN_header" type="button" name="search-top-btn" onClick={ handelClick }>
+        <button
+          className="BTN_header"
+          type="button"
+          name="search-top-btn"
+          onClick={ handelClick }
+        >
           <i className="bi bi-person-circle" />
         </button>)}
       {search && (
         <SearchBarHeader history={ history } />
-        )}
+      )}
     </div>
   );
 }
