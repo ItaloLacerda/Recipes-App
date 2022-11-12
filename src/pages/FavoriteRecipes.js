@@ -133,6 +133,7 @@ function FavoriteRecipes({ updateHeader, history }) {
               </button>
               <button
                 type="button"
+                data-testid={ `${index}-disfavor` }
                 onClick={ () => disfavor(recipes.id) }
               >
                 <img

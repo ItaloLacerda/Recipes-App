@@ -49,7 +49,6 @@ function RecipeInProgress({ match, history }) {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes) {
       favoriteRecipes.forEach((recipe) => {
-        console.log(recipe);
         if (recipe.id === ID) {
           setitsFavoriteRecipe(true);
         }
@@ -211,6 +210,7 @@ function RecipeInProgress({ match, history }) {
             <input
               className="input_checkbox"
               type="checkbox"
+              data-testid={ `${index}-ingredient` }
               onChange={ () => ingredientMark(element.name) }
               checked={ marked.includes(element.name) }
             />

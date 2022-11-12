@@ -70,7 +70,6 @@ function SearchBarHeader({ history, setRecipe }) {
         history.push(`${pathname}/${productId}`);
       }
       if (pathname === '/drinks') {
-        // console.log('entrou');
         const productId = resultsFetch[pathname.substring(1)][0].idDrink;
         history.push(`${pathname}/${productId}`);
       }
